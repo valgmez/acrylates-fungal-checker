@@ -1,0 +1,5 @@
+{
+  "name": "Acrylates & Fungal Acne Ingredient Analyzer",
+  "description": "A minimalistic web app to analyze cosmetic ingredient lists for acrylates and fungal acne triggers, helping users identify potentially unsafe products.",
+  "requestFramePermissions": []
+}
