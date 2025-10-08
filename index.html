@@ -2,23 +2,74 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ingredient Analyzer for Acrylates & Fungal Acne</title>
+    
+    <!-- SEO: Title -->
+    <title>Acrylates & Fungal Acne Ingredient Analyzer | Safe Skincare Checker</title>
+
+    <!-- SEO: Meta Description -->
+    <meta name="description" content="Quickly analyze cosmetic and skincare ingredient lists for potential acrylates and fungal acne (Malassezia) triggers. Paste your ingredients to get an instant safety analysis." />
+    
+    <!-- SEO: Meta Keywords -->
+    <meta name="keywords" content="ingredient analyzer, skincare checker, cosmetic ingredients, acrylates allergy, fungal acne, malassezia folliculitis, safe skincare, beauty, cosmetics" />
+
+    <!-- SEO: Canonical URL (IMPORTANT: Replace with your actual domain) -->
+    <link rel="canonical" href="https://www.your-domain.com" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <!-- Social Media Sharing: Open Graph (Facebook, Pinterest, etc.) -->
+    <meta property="og:title" content="Acrylates & Fungal Acne Ingredient Analyzer" />
+    <meta property="og:description" content="Instantly check skincare and cosmetic ingredients for acrylates and fungal acne triggers." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.your-domain.com" />
+    <!-- <meta property="og:image" content="https://www.your-domain.com/social-share-image.png" /> -->
+
+    <!-- Social Media Sharing: Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Acrylates & Fungal Acne Ingredient Analyzer" />
+    <meta name="twitter:description" content="Instantly check skincare and cosmetic ingredients for acrylates and fungal acne triggers." />
+    <!-- <meta name="twitter:image" content="https://www.your-domain.com/social-share-image.png" /> -->
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google AdSense Script (Replace with your publisher ID) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000"
+     crossorigin="anonymous"></script>
+
+    <!-- SEO: Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Acrylates & Fungal Acne Ingredient Analyzer",
+      "description": "A free tool to analyze cosmetic and skincare ingredient lists for potential acrylates and fungal acne (Malassezia folliculitis) triggers.",
+      "url": "https://www.your-domain.com",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    }
+    </script>
   <script type="importmap">
 {
   "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
     "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.22.0"
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "vite": "https://aistudiocdn.com/vite@^7.1.9",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.0.4"
   }
 }
 </script>
 </head>
   <body class="bg-gray-50">
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

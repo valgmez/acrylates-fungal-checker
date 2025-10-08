@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { analyzeIngredients } from './services/geminiService';
+import { analyzeIngredients } from './services/analysisService';
 import { AnalysisResult, ResultStatus, IndividualAnalysis } from './types';
 import { Spinner } from './components/Spinner';
+import { AdSense } from './components/AdSense';
 import { AlertTriangle, CheckCircle, Info } from './components/Icons';
 
 const App: React.FC = () => {
@@ -29,7 +30,7 @@ const App: React.FC = () => {
       setStatus(overallIsSafe ? ResultStatus.Safe : ResultStatus.Unsafe);
     } catch (err) {
       console.error(err);
-      setError('An error occurred during analysis. Please check your network connection or API key and try again.');
+      setError('An unexpected error occurred during analysis. Please try again.');
       setStatus(ResultStatus.Error);
     }
   }, [ingredients, checkFungalAcne]);
@@ -58,7 +59,7 @@ const App: React.FC = () => {
                     <ul className="mt-1 flex flex-wrap gap-2">
                         {analysis.foundIngredients.map((item, index) => (
                         <li key={index} className="font-mono text-xs text-red-900 bg-red-100 px-2 py-1 rounded-md">
-                            {item}
+                            {item.charAt(0).toUpperCase() + item.slice(1)}
                         </li>
                         ))}
                     </ul>
@@ -126,7 +127,7 @@ const App: React.FC = () => {
           </div>
           
           <p className="mt-6 text-xs text-gray-500 italic">
-            Disclaimer: This tool uses an AI model and is for informational purposes only. It is not a substitute for professional medical advice. Always consult with a healthcare professional or allergist regarding your specific condition and product choices.
+            Disclaimer: This tool is for informational purposes only and is not a substitute for professional medical advice. Always consult with a healthcare professional or allergist regarding your specific condition and product choices.
           </p>
         </div>
       );
@@ -139,11 +140,20 @@ const App: React.FC = () => {
     <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 font-sans">
       <main className="w-full max-w-2xl text-center">
         <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-800 tracking-tight">
-          Ingredient Analyzer
+          Acrylates & Fungal Acne Ingredient Analyzer
         </h1>
         <p className="mt-4 text-lg text-gray-600">
-          Check products for acrylates and fungal acne triggers.
+          Check skincare and cosmetic products for potential irritants in seconds.
         </p>
+
+        <div className="mt-6 text-left text-gray-700 text-sm space-y-2 max-w-xl mx-auto">
+            <p>
+                Navigating ingredient lists can be overwhelming, especially when dealing with sensitivities like an <strong>acrylates allergy</strong> or triggers for <strong>fungal acne (Malassezia folliculitis)</strong>. This tool simplifies the process.
+            </p>
+            <p>
+                Just paste a product's full ingredient list into the text box below for an instant, automated analysis.
+            </p>
+        </div>
         
         <div className="mt-8">
           <label htmlFor="ingredients" className="sr-only">
@@ -193,6 +203,8 @@ const App: React.FC = () => {
             'Analyze Ingredients'
           )}
         </button>
+        
+        <AdSense />
 
         <ResultCard />
       </main>
