@@ -19,7 +19,7 @@ const About: React.FC = () => {
                         Our goal is to empower you to make informed decisions about the products you use, without the need for endless research.
                     </p>
                     <div className="mt-8 text-center">
-                        <Link to="/" className="text-blue-600 hover:text-blue-800 font-semibold">
+                        <Link to="/" className="text-blue-600 hover:text-blue-700 font-semibold">
                             &rarr; Check your ingredients with Acrylis &larr;
                         </Link>
                     </div>

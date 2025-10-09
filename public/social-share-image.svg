@@ -1,0 +1,30 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F8FAFC"/>
+  <g transform="translate(120, 255) scale(2.5)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M16 4L2 28H30L16 4ZM16 12.667L22.667 25.333H9.333L16 12.667Z" fill="black"/>
+  </g>
+  <foreignObject x="250" y="180" width="850" height="300">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <style>
+        .title {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+          font-size: 100px;
+          font-weight: 800;
+          color: #1E293B;
+          line-height: 1.1;
+          letter-spacing: -2px;
+        }
+        .subtitle {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+          font-size: 40px;
+          font-weight: 400;
+          color: #475569;
+          margin-top: 10px;
+          line-height: 1.4;
+        }
+      </style>
+      <div class="title">Acrylis</div>
+      <div class="subtitle">Acrylates &amp; Fungal Acne Ingredient Analyzer</div>
+    </div>
+  </foreignObject>
+</svg>

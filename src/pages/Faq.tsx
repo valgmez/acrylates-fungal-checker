@@ -29,7 +29,7 @@ const Faq: React.FC = () => {
                     </div>
 
                     <div className="mt-8 pt-6 border-t text-center">
-                        <Link to="/" className="text-blue-600 hover:text-blue-800 font-semibold">
+                        <Link to="/" className="text-blue-600 hover:text-blue-700 font-semibold">
                             &rarr; Check your ingredients with Acrylis &larr;
                         </Link>
                     </div>

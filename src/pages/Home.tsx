@@ -71,10 +71,10 @@ const Home: React.FC = () => {
   const ResultCard: React.FC = () => {
     if (status === ResultStatus.Initial) {
       return (
-        <div className="mt-8 w-full max-w-2xl p-6 bg-blue-50 border border-blue-200 rounded-xl text-center">
-          <Info className="mx-auto h-12 w-12 text-blue-400" />
-          <p className="mt-4 text-lg font-medium text-blue-700">Ready to analyze</p>
-          <p className="mt-1 text-sm text-blue-600">Paste your ingredient list, choose your checks, and click "Analyze".</p>
+        <div className="mt-8 w-full max-w-2xl p-6 bg-gray-100 border border-gray-200 rounded-xl text-center">
+          <Info className="mx-auto h-12 w-12 text-gray-400" />
+          <p className="mt-4 text-lg font-medium text-gray-700">Ready to analyze</p>
+          <p className="mt-1 text-sm text-gray-600">Paste your ingredient list, choose your checks, and click "Analyze".</p>
         </div>
       );
     }
@@ -176,7 +176,7 @@ const Home: React.FC = () => {
               type="checkbox"
               checked={checkFungalAcne}
               onChange={(e) => setCheckFungalAcne(e.target.checked)}
-              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600"
+              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
             />
           </div>
           <div className="ml-3 text-sm leading-6">
