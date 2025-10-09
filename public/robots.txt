@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Point crawlers to the sitemap
-Sitemap: https://www.your-domain.com/sitemap.xml
+Sitemap: https://acrylis.cc/sitemap.xml
