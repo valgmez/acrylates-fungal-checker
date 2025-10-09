@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import { analyzeIngredients } from './services/analysisService';
 import { AnalysisResult, ResultStatus, IndividualAnalysis } from './types';
 import { Spinner } from './components/Spinner';
-import { AdSense } from './components/AdSense';
 import { AlertTriangle, CheckCircle, Info } from './components/Icons';
 
 const App: React.FC = () => {
@@ -204,8 +203,6 @@ const App: React.FC = () => {
           )}
         </button>
         
-        <AdSense />
-
         <ResultCard />
       </main>
     </div>
