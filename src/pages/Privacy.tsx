@@ -6,7 +6,7 @@ const Privacy: React.FC = () => {
         <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow">
                 <h1 className="text-3xl font-extrabold text-gray-800 tracking-tight">Privacy Policy</h1>
-                <p className="mt-2 text-sm text-gray-500">Last Updated: October 09, 2025</p>
+                <p className="mt-2 text-sm text-gray-500">Last Updated: June 01, 2024</p>
                 
                 <div className="mt-6 text-gray-700 space-y-4">
                     <p>
