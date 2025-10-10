@@ -116,7 +116,7 @@ const Recommendations: React.FC = () => {
 
                     <div className="mt-8 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md">
                         <p className="text-sm text-yellow-800">
-                            <strong>Affiliate Disclosure 💰:</strong> This page contains affiliate links. If you purchase a product through these links, we may earn a small commission at no extra cost to you. This helps support the site. Please read our full <a href="#/terms" className="underline hover:text-yellow-900">Terms of Service</a> for more information.
+                            <strong>Affiliate Disclosure 💰:</strong> This page contains affiliate links. If you purchase a product through these links, we may earn a small commission at no extra cost to you. This helps support the site. Please read our full <a href="/terms" className="underline hover:text-yellow-900">Terms of Service</a> for more information.
                         </p>
                     </div>
                     
