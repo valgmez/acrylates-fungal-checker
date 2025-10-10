@@ -1,6 +1,4 @@
-# Allow all user agents to crawl the site
 User-agent: *
 Allow: /
 
-# Point crawlers to the sitemap
 Sitemap: https://acrylis.cc/sitemap.xml
