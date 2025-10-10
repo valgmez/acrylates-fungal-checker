@@ -19,6 +19,7 @@ export const Navbar: React.FC = () => {
                     <div className="hidden md:block">
                         <div className="ml-10 flex items-baseline space-x-4">
                             <NavLink to="/" className={linkClass}>Home</NavLink>
+                            <NavLink to="/recommendations" className={linkClass}>Recommendations</NavLink>
                             <NavLink to="/about" className={linkClass}>About</NavLink>
                             <NavLink to="/faq" className={linkClass}>FAQ</NavLink>
                             <NavLink to="/contact" className={linkClass}>Contact</NavLink>

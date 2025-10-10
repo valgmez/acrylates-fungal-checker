@@ -11,8 +11,10 @@ export const Footer: React.FC = () => {
                         <p className="text-xs text-gray-500 mt-1">Disclaimer: For informational purposes only. Not medical advice.</p>
                     </div>
                     <nav className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 text-sm">
+                        <Link to="/recommendations" className="text-gray-600 hover:text-blue-600">Recommendations</Link>
                         <Link to="/about" className="text-gray-600 hover:text-blue-600">About</Link>
                         <Link to="/faq" className="text-gray-600 hover:text-blue-600">FAQ</Link>
+                        <Link to="/references" className="text-gray-600 hover:text-blue-600">References</Link>
                         <Link to="/contact" className="text-gray-600 hover:text-blue-600">Contact</Link>
                         <Link to="/privacy" className="text-gray-600 hover:text-blue-600">Privacy Policy</Link>
                         <Link to="/terms" className="text-gray-600 hover:text-blue-600">Terms of Service</Link>
