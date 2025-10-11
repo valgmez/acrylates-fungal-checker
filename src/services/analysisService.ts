@@ -20,40 +20,47 @@ const ACRYLATES_TRIGGERS: string[] = [
 const FUNGAL_ACNE_TRIGGERS: string[] = [
   // Fatty Acids (problematic carbon chain lengths are ~11-24)
   'lauric acid',
+  'linoleic acid',
   'myristic acid',
+  'oleic acid',
   'palmitic acid',
   'stearic acid',
-  'oleic acid',
-  'linoleic acid',
 
   // Esters (a very common class of triggers)
-  'isopropyl palmitate',
-  'isopropyl myristate',
-  'ethylhexyl palmitate',
-  'glyceryl stearate',
-  'peg-100 stearate',
-  'cetearyl ethylhexanoate',
-  'isohexadecane',
-  'sorbitan oleate',
-  'decyl oleate',
   'c12-15 alkyl benzoate',
+  'cetearyl ethylhexanoate',
+  'cetyl ethylhexanoate',
+  'decyl oleate',
+  'ethylhexyl palmitate',
+  'ethylhexyl stearate',
+  'glyceryl stearate',
+  'isohexadecane',
+  'isopropyl myristate',
+  'isopropyl palmitate',
+  'peg-100 stearate',
+  'peg-7 glyceryl cocoate',
   'polyglyceryl-3 diisostearate',
+  'sorbeth-30 tetraoleate',
+  'sorbitan isostearate',
+  'sorbitan oleate',
   'sucrose cocoate',
   
   // Oils & Butters (most are not FA-safe)
-  'cocos nucifera oil', // coconut oil
-  'olea europaea fruit oil', // olive oil
-  'prunus amygdalus dulcis oil', // sweet almond oil
-  'persea gratissima oil', // avocado oil
-  'butyrospermum parkii butter', // shea butter
-  'theobroma cacao seed butter', // cocoa butter
   'argania spinosa kernel oil', // argan oil
-  'rosa canina fruit oil', // rosehip oil
-  'helianthus annuus seed oil', // sunflower oil
-  'simmondsia chinensis seed oil', // jojoba oil (technically a wax ester, debated)
+  'butyrospermum parkii butter', // shea butter
+  'carthamus tinctorius oil', // safflower oil
+  'cocos nucifera oil', // coconut oil
   'glycine soja oil', // soybean oil
-  'ricinus communis seed oil', // castor oil
+  'helianthus annuus seed oil', // sunflower oil
   'hydrogenated vegetable oil',
+  'olea europaea fruit oil', // olive oil
+  'oryza sativa bran oil', // rice bran oil
+  'persea gratissima oil', // avocado oil
+  'prunus amygdalus dulcis oil', // sweet almond oil
+  'ricinus communis seed oil', // castor oil
+  'rosa canina fruit oil', // rosehip oil
+  'simmondsia chinensis seed oil', // jojoba oil (technically a wax ester, debated)
+  'theobroma cacao seed butter', // cocoa butter
 
   // Polysorbates
   'polysorbate 20',
@@ -61,9 +68,9 @@ const FUNGAL_ACNE_TRIGGERS: string[] = [
   'polysorbate 80',
 
   // Ferments
+  'bifida ferment lysate',
   'galactomyces ferment filtrate',
   'saccharomyces ferment filtrate',
-  'bifida ferment lysate',
   
   // Other known triggers
   'lanolin',
@@ -86,9 +93,13 @@ const performAnalysis = (
   const foundIngredients = new Set<string>();
 
   for (const ingredient of ingredients) {
+    // Normalize ingredient by removing content in parentheses and extra spaces for more robust matching.
+    // e.g., "helianthus annuus (sunflower) seed oil" becomes "helianthus annuus seed oil"
+    const normalizedIngredient = ingredient.replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+
     for (const trigger of triggerList) {
-      if (ingredient.includes(trigger)) {
-        // Add the original-cased ingredient from the full list for better readability
+      if (normalizedIngredient.includes(trigger)) {
+        // Add the original, non-normalized ingredient from the list for better readability
         foundIngredients.add(ingredient);
         break; // Move to the next ingredient once a trigger is found
       }

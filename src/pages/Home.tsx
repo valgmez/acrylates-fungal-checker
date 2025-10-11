@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { analyzeIngredients } from '../services/analysisService';
 import { AnalysisResult, ResultStatus, IndividualAnalysis } from '../types';
 import { Spinner } from '../components/Spinner';
@@ -238,7 +238,7 @@ const Home: React.FC = () => {
               Don't waste time manually checking ingredients. Let Acrylis do the work for you.
           </p>
           <p className="mt-4 text-gray-600">
-              Enter individual ingredients or copy and paste an entire list into the search bar below. Acrylis will do the rest.
+              Enter individual ingredients or copy and paste an entire list into the box below. Acrylis will do the rest.
           </p>
           <button
             onClick={() => setIsInstructionsModalOpen(true)}
@@ -249,17 +249,34 @@ const Home: React.FC = () => {
         </div>
 
         <div className="mt-8 max-w-2xl mx-auto">
-          <label htmlFor="ingredients" className="sr-only">
-            Ingredient List
-          </label>
-          <textarea
-            id="ingredients"
-            rows={8}
-            className="w-full p-4 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow text-base placeholder-gray-400"
-            placeholder="Paste the full ingredient list here..."
-            value={ingredients}
-            onChange={(e) => setIngredients(e.target.value)}
-          />
+          <div className="flex justify-between items-center mb-2">
+            <label htmlFor="ingredients" className="font-semibold text-lg text-gray-800">
+              Ingredient List
+            </label>
+            {ingredients.length > 0 && (
+              <button
+                onClick={() => {
+                  setIngredients('');
+                  setResult(null);
+                  setStatus(ResultStatus.Initial);
+                  setError(null);
+                }}
+                className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+              >
+                Clear list
+              </button>
+            )}
+          </div>
+          <div className="relative">
+            <textarea
+              id="ingredients"
+              rows={8}
+              className="w-full p-4 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow text-base placeholder-gray-400"
+              placeholder="Paste the full ingredient list here 🧪"
+              value={ingredients}
+              onChange={(e) => setIngredients(e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="mt-6 flex items-center justify-center">
