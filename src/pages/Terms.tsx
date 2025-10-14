@@ -22,7 +22,7 @@ const Terms: React.FC = () => {
 
                         <h2 className="text-xl font-semibold text-gray-800 pt-2">2. Service Description</h2>
                         <p>
-                            Acrylis is a web-based tool designed to provide an automated analysis of cosmetic ingredient lists for potential acrylates and fungal acne triggers. The analysis is based on an internal dictionary of ingredients and is for informational purposes only.
+                            Acrylis is a web-based tool designed to provide an automated analysis of cosmetic ingredient lists for potential acrylates and fungal acne triggers. The analysis is based on an internal database of ingredients and is for informational purposes only.
                         </p>
 
                         <h2 className="text-xl font-semibold text-gray-800 pt-2">3. Medical Disclaimer</h2>
@@ -32,7 +32,7 @@ const Terms: React.FC = () => {
                         
                         <h2 className="text-xl font-semibold text-gray-800 pt-2">4. Limitation of Liability</h2>
                         <p>
-                            The creators of Acrylis shall not be held liable for any inaccuracies, errors, or omissions in the information provided, nor for any actions taken in reliance thereon. The tool's dictionary may not be complete or entirely accurate. You assume full responsibility for any decisions made based on the use of this Service.
+                            The creators of Acrylis shall not be held liable for any inaccuracies, errors, or omissions in the information provided, nor for any actions taken in reliance thereon. The tool's database may not be complete or entirely accurate. You assume full responsibility for any decisions made based on the use of this Service.
                         </p>
 
                         <h2 className="text-xl font-semibold text-gray-800 pt-2">5. Changes to Terms</h2>

@@ -6,6 +6,7 @@ import { AlertTriangle, CheckCircle, Info } from '../components/Icons';
 import { Link } from 'react-router-dom';
 import { TipPopup } from '../components/TipPopup';
 import InstructionsModal from '../components/InstructionsModal';
+import UpdateNotification from '../components/UpdateNotification';
 import Seo from '../components/Seo';
 
 const SeoContent: React.FC = () => (
@@ -45,7 +46,7 @@ const SeoContent: React.FC = () => (
             <h3 className="text-2xl font-semibold text-gray-800 mb-3">Your Solution for Safer Skincare ✅</h3>
              <div className="space-y-4 text-gray-700 leading-relaxed">
                 <p>
-                    That's why we built Acrylis. We've compiled comprehensive dictionaries of known acrylates and fungal acne triggers based on scientific literature and dermatology resources. Our tool cross-references your ingredient list against these dictionaries in an instant.
+                    That's why we built Acrylis. We've compiled comprehensive databases of known acrylates and fungal acne triggers based on scientific literature and dermatology resources. Our tool cross-references your ingredient list against these databases in an instant.
                 </p>
                 <p>
                     No more guesswork. No more spending hours on research. Just paste, analyze, and get a clear, immediate result. Take control of your skincare routine and give your skin the peace it deserves.
@@ -63,8 +64,13 @@ const Home: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showTip, setShowTip] = useState<boolean>(false);
   const [isInstructionsModalOpen, setIsInstructionsModalOpen] = useState(false);
+  const [showUpdateNotice, setShowUpdateNotice] = useState<boolean>(false);
+
+  // Use a descriptive key for the update. When dictionaries are updated again, this key should be changed.
+  const UPDATE_NOTICE_KEY = 'update-notice-v3-polyquaternium-and-fa-esters';
 
   useEffect(() => {
+    // Logic for the one-time tip popup
     const tipSeen = sessionStorage.getItem('tipSeen');
     if (!tipSeen) {
       const timer = setTimeout(() => {
@@ -74,9 +80,22 @@ const Home: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Logic for the update notification popup
+    const updateNoticeSeen = localStorage.getItem(UPDATE_NOTICE_KEY);
+    if (!updateNoticeSeen) {
+        setShowUpdateNotice(true);
+    }
+  }, []);
+
   const handleCloseTip = () => {
     setShowTip(false);
     sessionStorage.setItem('tipSeen', 'true');
+  };
+
+  const handleCloseUpdateNotice = () => {
+    setShowUpdateNotice(false);
+    localStorage.setItem(UPDATE_NOTICE_KEY, 'true');
   };
 
   const handleAnalyze = useCallback(async () => {
@@ -319,6 +338,7 @@ const Home: React.FC = () => {
         
         {showTip && <TipPopup onClose={handleCloseTip} />}
         <InstructionsModal isOpen={isInstructionsModalOpen} onClose={() => setIsInstructionsModalOpen(false)} />
+        <UpdateNotification isOpen={showUpdateNotice} onClose={handleCloseUpdateNotice} />
       </main>
     </>
   );

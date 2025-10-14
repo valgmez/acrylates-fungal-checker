@@ -3,17 +3,36 @@ import { AnalysisResult, IndividualAnalysis } from '../types';
 // A detailed list of keywords for acrylates and related compounds.
 // All keywords are lowercase for case-insensitive matching.
 const ACRYLATES_TRIGGERS: string[] = [
+  'acroleic acid',
   'acrylate',
   'acrylates',
-  'methacrylate',
-  'cyanoacrylate',
+  'acrylic acid',
+  'carbomar',
   'carbomer',
-  'polyquaternium-10',
+  'carbopol',
+  'cyanoacrylate',
+  'dermabond',
+  'diakon',
+  'etocrylene',
+  'eudragit',
+  'ethylenecarboxylic acid',
+  'histoacryl',
+  'lucite',
+  'methacrylate',
+  'methoxycrylene',
+  'octocrylene',
+  'perspex',
+  'plexiglas',
+  'polyacrylate',
+  'polycarbophil',
+  'polycarboxylates',
+  'polyquaternium-11',
   'polyquaternium-37',
   'polyquaternium-7',
+  'propenoic acid',
   'styrene',
-  'polyacrylate',
   'vinyl acetate', // Can cross-react
+  'vinylformic acid',
 ];
 
 // A detailed list of keywords for fungal acne (Malassezia folliculitis) triggers.
@@ -139,7 +158,7 @@ export const analyzeIngredients = async (
     const acrylatesAnalysis = performAnalysis(
       ingredients,
       ACRYLATES_TRIGGERS,
-      "Based on our dictionary, no ingredients known to be acrylates or common cross-reactors were detected.",
+      "Based on our analysis database, no ingredients known to be acrylates or common cross-reactors were detected.",
       "One or more ingredients that could be problematic for an acrylates allergy were found in the list."
     );
 
@@ -148,7 +167,7 @@ export const analyzeIngredients = async (
       fungalAcneAnalysis = performAnalysis(
         ingredients,
         FUNGAL_ACNE_TRIGGERS,
-        "Based on our dictionary, no ingredients known to be common fungal acne triggers were detected.",
+        "Based on our analysis database, no ingredients known to be common fungal acne triggers were detected.",
         "One or more ingredients that could be problematic for fungal acne were found in the list."
       );
     }

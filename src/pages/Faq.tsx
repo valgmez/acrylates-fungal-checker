@@ -27,12 +27,12 @@ const Faq: React.FC = () => {
 
                         <div>
                             <h2 className="text-xl font-semibold text-gray-800">How does this tool work? ⚙️</h2>
-                            <p className="mt-2">Our tool uses a comprehensive internal dictionary of known acrylates and fungal acne triggers. When you paste an ingredient list, the tool performs a rapid search against this dictionary to identify any matches. It's a fast, offline process that respects your privacy, as your ingredient list is never sent to a server.</p>
+                            <p className="mt-2">Our tool uses a comprehensive internal database of known acrylates and fungal acne triggers. When you paste an ingredient list, the tool performs a rapid search against this database to identify any matches. It's a fast, offline process that respects your privacy, as your ingredient list is never sent to a server.</p>
                         </div>
 
                         <div>
                             <h2 className="text-xl font-semibold text-gray-800">How accurate is the tool? 🎯</h2>
-                            <p className="mt-2">The analyzer relies on a curated list of known trigger ingredients. While we strive to keep our dictionary comprehensive and up-to-date, it may not be exhaustive. New chemical names or derivatives may not be included. Therefore, the results should be used as a guideline, not a definitive verdict. Always double-check with other sources and consult a professional if you have serious concerns.</p>
+                            <p className="mt-2">The analyzer relies on a curated list of known trigger ingredients. While we strive to keep our database comprehensive and up-to-date, it may not be exhaustive. New chemical names or derivatives may not be included. Therefore, the results should be used as a guideline, not a definitive verdict. Always double-check with other sources and consult a professional if you have serious concerns.</p>
                         </div>
                         
                         <div>

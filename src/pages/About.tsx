@@ -20,7 +20,7 @@ const About: React.FC = () => {
                             Acrylis was created to solve a common problem for people with sensitive skin: deciphering complicated ingredient lists. If you're dealing with an <strong>acrylates allergy</strong> or trying to avoid triggers for <strong>fungal acne (Malassezia folliculitis)</strong>, reading the back of a product can feel like an impossible task.
                         </p>
                         <p>
-                            This tool simplifies the process. We maintain a comprehensive, offline dictionary of known acrylates, cross-reactors, and fungal acne triggers based on dermatological research and community-driven data. By pasting an ingredient list into our analyzer, you get an instant, easy-to-understand breakdown of potentially problematic components.
+                            This tool simplifies the process. We maintain a comprehensive, offline database of known acrylates, cross-reactors, and fungal acne triggers based on dermatological research and community-driven data. By pasting an ingredient list into our analyzer, you get an instant, easy-to-understand breakdown of potentially problematic components.
                         </p>
                         <p>
                             Our goal is to empower you to make informed decisions about the products you use, without the need for endless research.

@@ -16,14 +16,14 @@ const References: React.FC = () => {
         <>
             <Seo
                 title="References & Sources – Acrylis Ingredient Checker"
-                description="Explore the scientific sources, dermatological resources, and community-driven data that power the Acrylis ingredient dictionary for acrylates and fungal acne."
+                description="Explore the scientific sources, dermatological resources, and community-driven data that power the Acrylis ingredient database for acrylates and fungal acne."
                 keywords="skincare research, dermatology sources, acrylates allergy study, malassezia folliculitis research, ingredient database sources"
             />
             <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow">
                     <h1 className="text-3xl font-extrabold text-gray-800 tracking-tight">References & Sources 📚</h1>
                     <p className="mt-4 text-lg text-gray-600">
-                        The ingredient dictionaries used by Acrylis are compiled from reputable dermatological resources, scientific studies, and trusted community-driven databases. This page highlights some of the key sources that inform our analysis.
+                        The ingredient databases used by Acrylis are compiled from reputable dermatological resources, scientific studies, and trusted community-driven databases. This page highlights some of the key sources that inform our analysis.
                     </p>
                     
                     <div className="mt-8 space-y-8 text-gray-700">
