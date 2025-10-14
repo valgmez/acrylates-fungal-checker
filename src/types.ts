@@ -16,3 +16,12 @@ export interface AnalysisResult {
   acrylates: IndividualAnalysis;
   fungalAcne?: IndividualAnalysis;
 }
+
+export interface HistoryItem {
+  id: string;
+  name: string;
+  ingredients: string;
+  checkFungalAcne: boolean;
+  result: AnalysisResult;
+  timestamp: number;
+}

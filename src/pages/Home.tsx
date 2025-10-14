@@ -1,8 +1,9 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { analyzeIngredients } from '../services/analysisService';
-import { AnalysisResult, ResultStatus, IndividualAnalysis } from '../types';
+import { HistoryItem } from '../types';
 import { Spinner } from '../components/Spinner';
-import { AlertTriangle, CheckCircle, Info } from '../components/Icons';
+import { AlertTriangle, HistoryIcon, PencilIcon, TrashIcon } from '../components/Icons';
 import { Link } from 'react-router-dom';
 import { TipPopup } from '../components/TipPopup';
 import InstructionsModal from '../components/InstructionsModal';
@@ -59,29 +60,39 @@ const SeoContent: React.FC = () => (
 const Home: React.FC = () => {
   const [ingredients, setIngredients] = useState<string>('');
   const [checkFungalAcne, setCheckFungalAcne] = useState<boolean>(true);
-  const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [status, setStatus] = useState<ResultStatus>(ResultStatus.Initial);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [showTip, setShowTip] = useState<boolean>(false);
   const [isInstructionsModalOpen, setIsInstructionsModalOpen] = useState(false);
   const [showUpdateNotice, setShowUpdateNotice] = useState<boolean>(false);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState<string>('');
+
+  const navigate = useNavigate();
 
   // Use a descriptive key for the update. When dictionaries are updated again, this key should be changed.
   const UPDATE_NOTICE_KEY = 'update-notice-v3-polyquaternium-and-fa-esters';
+  const HISTORY_KEY = 'acrylis-analysis-history';
 
   useEffect(() => {
-    // Logic for the one-time tip popup
+    // Load history from localStorage on initial render
+    try {
+      const savedHistory = localStorage.getItem(HISTORY_KEY);
+      if (savedHistory) {
+        setHistory(JSON.parse(savedHistory));
+      }
+    } catch (e) {
+      console.error("Failed to parse history from localStorage", e);
+      setHistory([]);
+    }
+    
     const tipSeen = sessionStorage.getItem('tipSeen');
     if (!tipSeen) {
-      const timer = setTimeout(() => {
-        setShowTip(true);
-      }, 2500); // Show after 2.5 seconds
-      return () => clearTimeout(timer); // Cleanup on unmount
+      const timer = setTimeout(() => setShowTip(true), 2500);
+      return () => clearTimeout(timer);
     }
-  }, []);
-
-  useEffect(() => {
-    // Logic for the update notification popup
+    
     const updateNoticeSeen = localStorage.getItem(UPDATE_NOTICE_KEY);
     if (!updateNoticeSeen) {
         setShowUpdateNotice(true);
@@ -100,127 +111,67 @@ const Home: React.FC = () => {
 
   const handleAnalyze = useCallback(async () => {
     if (!ingredients.trim()) {
-      setError('Please paste an ingredient list.');
-      setStatus(ResultStatus.Error);
+      setError('Please paste an ingredient list to analyze.');
       return;
     }
-    setStatus(ResultStatus.Loading);
+    setIsLoading(true);
     setError(null);
-    setResult(null);
 
     try {
       const analysis = await analyzeIngredients(ingredients, checkFungalAcne);
-      setResult(analysis);
+      const newHistoryItem: HistoryItem = {
+        id: new Date().toISOString() + Math.random(),
+        name: `Analysis (${new Date().toLocaleDateString()})`,
+        ingredients,
+        checkFungalAcne,
+        result: analysis,
+        timestamp: Date.now(),
+      };
       
-      const overallIsSafe = analysis.acrylates.isSafe && (!analysis.fungalAcne || analysis.fungalAcne.isSafe);
-      setStatus(overallIsSafe ? ResultStatus.Safe : ResultStatus.Unsafe);
+      const updatedHistory = [newHistoryItem, ...history];
+      setHistory(updatedHistory);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(updatedHistory));
+
+      navigate('/results', { state: { result: analysis, ingredients } });
+
     } catch (err) {
       console.error(err);
-      setError('An unexpected error occurred during analysis. Please try again.');
-      setStatus(ResultStatus.Error);
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+        setIsLoading(false);
     }
-  }, [ingredients, checkFungalAcne]);
+  }, [ingredients, checkFungalAcne, history, navigate]);
 
-  const AnalysisDetailCard: React.FC<{ title: string; analysis: IndividualAnalysis }> = ({ title, analysis }) => {
-    const isSafe = analysis.isSafe;
-    const cardClasses = isSafe ? 'bg-green-50/50 border-green-200' : 'bg-red-50/50 border-red-200';
-    const icon = isSafe ? <CheckCircle className="h-6 w-6 text-green-500" /> : <AlertTriangle className="h-6 w-6 text-red-500" />;
-    const titleText = isSafe ? 'Likely Safe' : 'Potential Issues Found';
-    const titleClasses = isSafe ? 'text-green-800' : 'text-red-800';
-    const textColor = isSafe ? 'text-green-700' : 'text-red-700';
-    
-    return (
-        <div className={`p-4 border rounded-lg ${cardClasses}`}>
-            <div className="flex items-center">
-                {icon}
-                <div className='ml-3'>
-                    <h4 className={`font-semibold ${titleClasses}`}>{title}</h4>
-                    <p className={`text-sm ${titleClasses}`}>{titleText}</p>
-                </div>
-            </div>
-            <p className={`mt-3 text-sm ${isSafe ? 'text-gray-600' : textColor}`}>{analysis.explanation}</p>
-            {!isSafe && analysis.foundIngredients.length > 0 && (
-                <div className="mt-3">
-                    <h5 className="text-sm font-semibold text-red-800">Identified Ingredients:</h5>
-                    <ul className="mt-1 flex flex-wrap gap-2">
-                        {analysis.foundIngredients.map((item, index) => (
-                        <li key={index} className="font-mono text-xs text-red-900 bg-red-100 px-2 py-1 rounded-md">
-                            {item.charAt(0).toUpperCase() + item.slice(1)}
-                        </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-        </div>
+  const handleViewHistory = (item: HistoryItem) => {
+    navigate('/results', { state: { result: item.result, ingredients: item.ingredients } });
+  };
+  
+  const handleDeleteHistory = (id: string) => {
+    const updatedHistory = history.filter(item => item.id !== id);
+    setHistory(updatedHistory);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(updatedHistory));
+  };
+
+  const handleStartEditing = (item: HistoryItem) => {
+    setEditingId(item.id);
+    setEditingName(item.name);
+  };
+  
+  const handleCancelEditing = () => {
+    setEditingId(null);
+    setEditingName('');
+  };
+  
+  const handleSaveName = (id: string) => {
+    if (!editingName.trim()) return;
+    const updatedHistory = history.map(item => 
+      item.id === id ? { ...item, name: editingName.trim() } : item
     );
+    setHistory(updatedHistory);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(updatedHistory));
+    handleCancelEditing();
   };
 
-  const ResultCard: React.FC = () => {
-    if (status === ResultStatus.Initial) {
-      return (
-        <div className="mt-8 w-full max-w-2xl p-6 bg-gray-100 border border-gray-200 rounded-xl text-center">
-          <Info className="mx-auto h-12 w-12 text-gray-400" />
-          <p className="mt-4 text-lg font-medium text-gray-700">Ready to analyze 🧪</p>
-          <p className="mt-1 text-sm text-gray-600">Paste your ingredient list, choose your checks, and click "Analyze".</p>
-        </div>
-      );
-    }
-
-    if (status === ResultStatus.Loading) {
-      return (
-        <div className="mt-8 w-full max-w-2xl p-6 flex flex-col items-center justify-center">
-          <Spinner />
-          <p className="mt-4 text-lg font-medium text-gray-700 animate-pulse">Analyzing ingredients... 🔬</p>
-        </div>
-      );
-    }
-
-    if (status === ResultStatus.Error && error) {
-      return (
-        <div className="mt-8 w-full max-w-2xl p-6 bg-yellow-50 border border-yellow-300 rounded-xl">
-          <div className="flex items-center">
-            <AlertTriangle className="h-8 w-8 text-yellow-500" />
-            <div className="ml-4">
-              <h3 className="text-lg font-bold text-yellow-800">Something went wrong</h3>
-              <p className="mt-1 text-sm text-yellow-700">{error}</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
-    
-    if ((status === ResultStatus.Safe || status === ResultStatus.Unsafe) && result) {
-      const overallIsSafe = status === ResultStatus.Safe;
-      const cardClasses = overallIsSafe 
-        ? 'bg-green-50 border-green-300' 
-        : 'bg-red-50 border-red-300';
-      const icon = overallIsSafe 
-        ? <CheckCircle className="h-8 w-8 text-green-500" /> 
-        : <AlertTriangle className="h-8 w-8 text-red-500" />;
-      const titleText = overallIsSafe ? 'Overall: Likely Safe' : 'Overall: Use with Caution';
-      const titleClasses = overallIsSafe ? 'text-green-800' : 'text-red-800';
-
-      return (
-        <div className={`mt-8 w-full max-w-2xl p-6 border rounded-xl ${cardClasses} text-left`}>
-          <div className="flex items-center">
-            {icon}
-            <h3 className={`ml-4 text-xl font-bold ${titleClasses}`}>{titleText}</h3>
-          </div>
-          
-          <div className="mt-6 space-y-4">
-            <AnalysisDetailCard title="Acrylates Allergy" analysis={result.acrylates} />
-            {result.fungalAcne && <AnalysisDetailCard title="Fungal Acne" analysis={result.fungalAcne} />}
-          </div>
-          
-          <p className="mt-6 text-xs text-gray-500 italic">
-            Disclaimer: This tool is for informational purposes only and is not a substitute for professional medical advice. Always consult with a healthcare professional or allergist regarding your specific condition and product choices.
-          </p>
-        </div>
-      );
-    }
-
-    return null;
-  };
 
   return (
     <>
@@ -274,12 +225,7 @@ const Home: React.FC = () => {
             </label>
             {ingredients.length > 0 && (
               <button
-                onClick={() => {
-                  setIngredients('');
-                  setResult(null);
-                  setStatus(ResultStatus.Initial);
-                  setError(null);
-                }}
+                onClick={() => setIngredients('')}
                 className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
               >
                 Clear list
@@ -320,10 +266,10 @@ const Home: React.FC = () => {
 
         <button
           onClick={handleAnalyze}
-          disabled={status === ResultStatus.Loading}
+          disabled={isLoading}
           className="mt-4 w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-full shadow-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:scale-100"
         >
-          {status === ResultStatus.Loading ? (
+          {isLoading ? (
             <>
               <Spinner className="w-5 h-5 mr-3 -ml-1" />
               Analyzing...
@@ -333,7 +279,71 @@ const Home: React.FC = () => {
           )}
         </button>
         
-        <ResultCard />
+        {error && (
+            <div className="mt-4 max-w-2xl mx-auto p-3 bg-yellow-50 border border-yellow-300 rounded-lg flex items-center justify-center">
+                <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                <p className="ml-2 text-sm text-yellow-800">{error}</p>
+            </div>
+        )}
+        
+        {history.length > 0 && (
+          <div className="mt-16 max-w-2xl mx-auto text-left">
+            <h2 className="text-2xl font-bold text-gray-800 flex items-center">
+              <HistoryIcon className="w-6 h-6 mr-2" />
+              Analysis History
+            </h2>
+            <p className="text-gray-600 mt-1 mb-4 text-sm">Your past analyses are saved in your browser. View, rename, or delete them.</p>
+            <ul className="space-y-3">
+              {history.map((item) => {
+                const isEditing = editingId === item.id;
+                const totalIssues = item.result.acrylates.foundIngredients.length + (item.result.fungalAcne?.foundIngredients.length || 0);
+
+                return (
+                  <li key={item.id} className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                    <div className="flex items-center justify-between">
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={editingName}
+                          onChange={(e) => setEditingName(e.target.value)}
+                          onKeyDown={(e) => e.key === 'Enter' && handleSaveName(item.id)}
+                          className="text-sm font-semibold text-gray-800 border-b-2 border-blue-500 focus:outline-none"
+                          autoFocus
+                        />
+                      ) : (
+                        <span className="text-sm font-semibold text-gray-800">{item.name}</span>
+                      )}
+                      
+                      <div className="flex items-center gap-2">
+                        {isEditing ? (
+                          <>
+                            <button onClick={() => handleSaveName(item.id)} className="text-sm text-blue-600 hover:underline">Save</button>
+                            <button onClick={handleCancelEditing} className="text-sm text-gray-500 hover:underline">Cancel</button>
+                          </>
+                        ) : (
+                          <>
+                            {totalIssues === 0 ? (
+                              <span className="text-xs font-medium bg-green-100 text-green-800 px-2 py-1 rounded-full">Safe</span>
+                            ) : (
+                              <span className="text-xs font-medium bg-red-100 text-red-800 px-2 py-1 rounded-full">{totalIssues} issue{totalIssues > 1 ? 's' : ''}</span>
+                            )}
+                            <button onClick={() => handleStartEditing(item)} aria-label="Rename analysis"><PencilIcon className="w-4 h-4 text-gray-500 hover:text-gray-800" /></button>
+                            <button onClick={() => handleDeleteHistory(item.id)} aria-label="Delete analysis"><TrashIcon className="w-4 h-4 text-gray-500 hover:text-red-600" /></button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-xs text-gray-500">{new Date(item.timestamp).toLocaleString()}</p>
+                      <button onClick={() => handleViewHistory(item)} className="text-sm font-semibold text-blue-600 hover:text-blue-800">View Results &rarr;</button>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+
         <SeoContent />
         
         {showTip && <TipPopup onClose={handleCloseTip} />}

@@ -10,6 +10,7 @@ import Contact from './pages/Contact';
 import Terms from './pages/Terms';
 import Recommendations from './pages/Recommendations';
 import References from './pages/References';
+import Results from './pages/Results';
 
 const Layout: React.FC = () => (
   <div className="min-h-screen flex flex-col font-sans w-full">
@@ -27,6 +28,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="results" element={<Results />} />
           <Route path="about" element={<About />} />
           <Route path="faq" element={<Faq />} />
           <Route path="recommendations" element={<Recommendations />} />
