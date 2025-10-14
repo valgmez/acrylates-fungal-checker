@@ -28,7 +28,7 @@ const UpdateNotification: React.FC<UpdateNotificationProps> = ({ isOpen, onClose
             <h3 className="text-xl font-semibold text-gray-900" id="modal-title">
               Analysis Database Updated! 📈
             </h3>
-            <p className="text-xs text-gray-500">October 10, 2025</p>
+            <p className="text-xs text-gray-500">October 14, 2025</p>
           </div>
           <button
             type="button"
