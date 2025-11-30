@@ -4,20 +4,36 @@ import { AnalysisResult, FoundIngredient, IndividualAnalysis } from "../types";
 import Seo from "../components/Seo";
 import { AlertTriangle, CheckCircle } from "../components/Icons";
 
-const Confetti: React.FC = () => (
-  <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-    {[...Array(150)].map((_, i) => {
-      const style = {
-        "--x": `${Math.random() * 100}%`,
-        "--y": `${Math.random() * 100}%`,
-        "--r": `${Math.random() * 360}deg`,
-        "--d": `${Math.random() * 1.5 + 0.5}s`,
-        "--bg": `hsl(${Math.random() * 360}, 70%, 60%)`,
-      } as React.CSSProperties;
-      return <div key={i} className="confetti-piece" style={style}></div>;
-    })}
-  </div>
-);
+const Confetti: React.FC = () => {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisible(false);
+    }, 2500); // Stop confetti after 2.5 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!visible) {
+    return null;
+  }
+
+  return (
+    <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+      {[...Array(150)].map((_, i) => {
+        const style = {
+          "--x": `${Math.random() * 100}%`,
+          "--y": `${Math.random() * 100}%`,
+          "--r": `${Math.random() * 360}deg`,
+          "--d": `${Math.random() * 1.5 + 0.5}s`,
+          "--bg": `hsl(${Math.random() * 360}, 70%, 60%)`,
+        } as React.CSSProperties;
+        return <div key={i} className="confetti-piece" style={style}></div>;
+      })}
+    </div>
+  );
+};
 
 const Results: React.FC = () => {
   const location = useLocation();
