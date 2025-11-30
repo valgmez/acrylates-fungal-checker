@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { AnalysisResult, IndividualAnalysis } from "../types";
+import { AnalysisResult, FoundIngredient, IndividualAnalysis } from "../types";
 import Seo from "../components/Seo";
 import { AlertTriangle, CheckCircle } from "../components/Icons";
 
@@ -53,16 +53,16 @@ const Results: React.FC = () => {
       ...(analysisResult.fungalAcne?.foundIngredients || []),
     ];
 
-    const uniqueProblematicIngredients = [
-      ...new Set(allProblematicIngredients),
+    const uniqueProblematicIngredientNames = [
+      ...new Set(allProblematicIngredients.map((item) => item.name)),
     ];
 
-    if (uniqueProblematicIngredients.length === 0) {
+    if (uniqueProblematicIngredientNames.length === 0) {
       return { grade: "A+", text: "Excellent!", color: "text-green-500" };
     }
 
     let riskScore = 0;
-    uniqueProblematicIngredients.forEach((problematicIngredient) => {
+    uniqueProblematicIngredientNames.forEach((problematicIngredient) => {
       // Find the position (index) of the problematic ingredient
       const index = ingredientsArray.findIndex(
         (ing) => ing === problematicIngredient
@@ -92,22 +92,23 @@ const Results: React.FC = () => {
   const isSafe = grade === "A+";
 
   const IngredientItem: React.FC<{
-    ingredient: string;
-    type: "Acrylate" | "Fungal Acne Trigger";
-  }> = ({ ingredient, type }) => {
-    const explanation =
-      type === "Acrylate"
-        ? "This is a type of acrylate, a chemical known to cause allergic contact dermatitis in sensitive individuals."
-        : "This ingredient contains fatty acids or esters that can feed the Malassezia yeast, potentially worsening fungal acne.";
+    ingredient: FoundIngredient;
+  }> = ({ ingredient }) => {
+    const { name, reason, status } = ingredient;
+    const Icon = AlertTriangle;
+    const iconColor = status === "Unknown" ? "text-yellow-500" : "text-red-500";
+    const textColor = status === "Unknown" ? "text-yellow-800" : "text-red-800";
+    const reasonColor =
+      status === "Unknown" ? "text-yellow-700" : "text-red-700";
 
     return (
       <li className="flex items-start">
-        <AlertTriangle className="h-5 w-5 text-red-400 flex-shrink-0 mt-1" />
+        <Icon className={`h-5 w-5 ${iconColor} flex-shrink-0 mt-1`} />
         <div className="ml-4">
-          <p className="font-semibold text-red-800 font-mono text-sm">
-            {ingredient.charAt(0).toUpperCase() + ingredient.slice(1)}
+          <p className={`font-semibold ${textColor} font-mono text-sm`}>
+            {name.charAt(0).toUpperCase() + name.slice(1)}
           </p>
-          <p className="text-xs text-red-700">{explanation}</p>
+          <p className={`text-xs ${reasonColor}`}>{reason}</p>
         </div>
       </li>
     );
@@ -117,61 +118,68 @@ const Results: React.FC = () => {
     title: string;
     analysis: IndividualAnalysis;
   }> = ({ title, analysis }) => {
-    const isCardSafe = analysis.isSafe;
+    const hasUnsafe = analysis.foundIngredients.some(
+      (ing) => ing.status === "Unsafe"
+    );
+    const hasUnknown = analysis.foundIngredients.some(
+      (ing) => ing.status === "Unknown"
+    );
+    const isCardSafe = !hasUnsafe && !hasUnknown;
+
+    const getCardStyle = () => {
+      if (hasUnsafe) {
+        return {
+          bg: "bg-red-50/50",
+          border: "border-red-200",
+          icon: <AlertTriangle className="h-6 w-6 text-red-500" />,
+          titleColor: "text-red-800",
+          statusText: "Potential Issues Found",
+        };
+      }
+      if (hasUnknown) {
+        return {
+          bg: "bg-yellow-50/50",
+          border: "border-yellow-200",
+          icon: <AlertTriangle className="h-6 w-6 text-yellow-500" />,
+          titleColor: "text-yellow-800",
+          statusText: "Needs Verification",
+        };
+      }
+      return {
+        bg: "bg-green-50/50",
+        border: "border-green-200",
+        icon: <CheckCircle className="h-6 w-6 text-green-500" />,
+        titleColor: "text-green-800",
+        statusText: "Likely Safe",
+      };
+    };
+
+    const style = getCardStyle();
+
     return (
-      <div
-        className={`p-4 border rounded-lg ${
-          isCardSafe
-            ? "bg-green-50/50 border-green-200"
-            : "bg-red-50/50 border-red-200"
-        }`}
-      >
+      <div className={`p-4 border rounded-lg ${style.bg} ${style.border}`}>
         <div className="flex items-center">
-          {isCardSafe ? (
-            <CheckCircle className="h-6 w-6 text-green-500" />
-          ) : (
-            <AlertTriangle className="h-6 w-6 text-red-500" />
-          )}
+          {style.icon}
           <div className="ml-3">
-            <h4
-              className={`font-semibold ${
-                isCardSafe ? "text-green-800" : "text-red-800"
-              }`}
-            >
-              {title}
-            </h4>
-            <p
-              className={`text-sm ${
-                isCardSafe ? "text-green-800" : "text-red-800"
-              }`}
-            >
-              {isCardSafe ? "Likely Safe" : "Potential Issues Found"}
-            </p>
+            <h4 className={`font-semibold ${style.titleColor}`}>{title}</h4>
+            <p className={`text-sm ${style.titleColor}`}>{style.statusText}</p>
           </div>
         </div>
         <p
           className={`mt-3 text-sm ${
-            isCardSafe ? "text-gray-600" : "text-red-700"
+            isCardSafe ? "text-gray-600" : style.titleColor
           }`}
         >
           {analysis.explanation}
         </p>
         {!isCardSafe && analysis.foundIngredients.length > 0 && (
           <div className="mt-4">
-            <h5 className="text-sm font-semibold text-red-800 mb-3">
+            <h5 className={`text-sm font-semibold ${style.titleColor} mb-3`}>
               Identified Ingredients:
             </h5>
             <ul className="space-y-3">
               {analysis.foundIngredients.map((item, index) => (
-                <IngredientItem
-                  key={index}
-                  ingredient={item}
-                  type={
-                    title === "Acrylates Allergy"
-                      ? "Acrylate"
-                      : "Fungal Acne Trigger"
-                  }
-                />
+                <IngredientItem key={index} ingredient={item} />
               ))}
             </ul>
           </div>
