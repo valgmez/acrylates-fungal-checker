@@ -357,6 +357,10 @@ const FUNGAL_ACNE_TRIGGERS: ReadonlyMap<string, string> = new Map([
   ],
   ["polysorbate 60", "polysorbate emulsifier, may support yeast growth"],
   [
+    "peg-60 hydrogenated castor oil",
+    "castor oil derivative, may worsen fungal acne",
+  ],
+  [
     "polysorbate 80",
     "polysorbate emulsifier, common problematic emulsifier for fungal acne",
   ],
