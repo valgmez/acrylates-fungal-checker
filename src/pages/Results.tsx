@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { AnalysisResult, FoundIngredient, IndividualAnalysis } from "../types";
 import Seo from "../components/Seo";
@@ -24,6 +24,7 @@ const Results: React.FC = () => {
   const navigate = useNavigate();
   const { result, ingredients } =
     (location.state as { result: AnalysisResult; ingredients: string }) || {};
+  const [showIngredients, setShowIngredients] = useState(false);
 
   useEffect(() => {
     if (!result || !ingredients) {
@@ -226,6 +227,20 @@ const Results: React.FC = () => {
                   title="Fungal Acne"
                   analysis={result.fungalAcne}
                 />
+              )}
+            </div>
+
+            <div className="mt-6 text-left">
+              <button
+                onClick={() => setShowIngredients(!showIngredients)}
+                className="text-sm text-blue-600 hover:underline focus:outline-none"
+              >
+                {showIngredients ? "Hide" : "View"} Full Ingredient List
+              </button>
+              {showIngredients && (
+                <div className="mt-2 p-4 bg-gray-50 rounded-md border border-gray-200 text-xs text-gray-700 whitespace-pre-wrap">
+                  {ingredients}
+                </div>
               )}
             </div>
 
