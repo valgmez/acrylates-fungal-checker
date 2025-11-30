@@ -307,6 +307,7 @@ const FUNGAL_ACNE_TRIGGERS: ReadonlyMap<string, string> = new Map([
     "argania spinosa kernel oil",
     "plant oil, it contains fatty acids that feed yeast",
   ],
+  ["castor oil", "castor oil may worsen fungal acne"],
   [
     "butyrospermum parkii butter",
     "shea butter, rich in fatty acids/esters that may worsen fungal acne",
@@ -359,6 +360,7 @@ const FUNGAL_ACNE_TRIGGERS: ReadonlyMap<string, string> = new Map([
     "polysorbate 80",
     "polysorbate emulsifier, common problematic emulsifier for fungal acne",
   ],
+  ["sorbitane sesquioleate", "emulsifier that may feed Malassezia yeast"],
 
   // Ferments / fermented extracts
   [
