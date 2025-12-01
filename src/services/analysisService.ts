@@ -252,16 +252,18 @@ const ACRYLATE_FALSE_POSITIVES = [
 ];
 
 const SUBSTRING_TRIGGERS: ReadonlyArray<string> = [
-  "acryl",
-  "acrylate",
-  "methacryl",
-  "cyanoacrylate",
-  "polyacrylate",
-  "carbomer",
   "acrylate crosspolymer",
-  "paa",
-  "cryl",
+  "polyacrylate",
+  "polyacryloyl",
+  "cyanoacrylate",
+  "methacryl",
+  "acrylate",
+  "carbomer",
   "crylene",
+  "acryloyl",
+  "acryl",
+  "cryl",
+  "paa",
 ];
 
 // A detailed list of keywords for fungal acne (Malassezia folliculitis) triggers.
