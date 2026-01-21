@@ -211,7 +211,7 @@ const Home: React.FC = () => {
   const handleSaveName = (id: string) => {
     if (!editingName.trim()) return;
     const updatedHistory = history.map((item) =>
-      item.id === id ? { ...item, name: editingName.trim() } : item
+      item.id === id ? { ...item, name: editingName.trim() } : item,
     );
     setHistory(updatedHistory);
     localStorage.setItem(HISTORY_KEY, JSON.stringify(updatedHistory));

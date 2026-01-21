@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter, Routes, Route, Outlet, Navigate, BrowserRouter } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import BuyMeACoffee from './components/BuyMeACoffee';
 import Home from './pages/Home';
 import About from './pages/About';
 import Faq from './pages/Faq';
@@ -18,6 +19,7 @@ const Layout: React.FC = () => (
     <div className="flex-grow w-full flex justify-center">
       <Outlet />
     </div>
+    <BuyMeACoffee />
     <Footer />
   </div>
 );
