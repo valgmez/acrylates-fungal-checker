@@ -16,7 +16,7 @@ import UpdateNotification from "../components/UpdateNotification";
 import Seo from "../components/Seo";
 
 const SeoContent: React.FC = () => (
-  <div className="mt-16 w-full max-w-3xl mx-auto text-left text-gray-800 space-y-8">
+  <div className="mt-16 w-full max-w-4xl mx-auto text-left text-acrylis-deep space-y-8">
     <section>
       <h2 className="text-3xl font-bold border-b pb-3 mb-4">
         Understanding Your Skin's Triggers
@@ -25,23 +25,23 @@ const SeoContent: React.FC = () => (
         Navigating the world of skincare and cosmetics can be a minefield,
         especially when your skin reacts to specific ingredients. Two common but
         often misunderstood culprits are acrylates and the triggers for
-        Malassezia folliculitis, also known as fungal acne. Our analyzer is
-        designed to bring clarity to this complex landscape, empowering you to
-        choose products with confidence.
+        Malassezia folliculitis, also known as fungal acne. I built this
+        analyzer because I know how overwhelming it feels — I've been there,
+        staring at ingredient lists for hours, trying to work out what's safe.
       </p>
     </section>
 
     <section>
-      <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+      <h3 className="text-2xl font-semibold text-acrylis-deep mb-3">
         The Challenge of Acrylates Allergies
       </h3>
       <div className="space-y-4 text-gray-700 leading-relaxed">
         <p>
           Acrylates are a group of chemicals prized for their ability to make
           products stick, harden, or form a durable film. They're everywhere: in
-          gel nail polishes, adhesives, and, most importantly for our users, in
-          a vast range of cosmetics like foundations, mascaras, and skincare
-          formulations.
+          gel nail polishes, adhesives, and, most importantly for those of us
+          with sensitivities, in a vast range of cosmetics like foundations,
+          mascaras, and skincare formulations.
         </p>
         <p>
           For most people, they are harmless. But for a growing number, repeated
@@ -56,7 +56,7 @@ const SeoContent: React.FC = () => (
     </section>
 
     <section>
-      <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+      <h3 className="text-2xl font-semibold text-acrylis-deep mb-3">
         Decoding Fungal Acne (Malassezia Folliculitis)
       </h3>
       <div className="space-y-4 text-gray-700 leading-relaxed">
@@ -81,20 +81,20 @@ const SeoContent: React.FC = () => (
     </section>
 
     <section>
-      <h3 className="text-2xl font-semibold text-gray-800 mb-3">
+      <h3 className="text-2xl font-semibold text-acrylis-deep mb-3">
         Your Solution for Safer Skincare ✅
       </h3>
       <div className="space-y-4 text-gray-700 leading-relaxed">
         <p>
-          That's why we built Acrylis. We've compiled comprehensive databases of
+          That's why I built Acrylis. I've compiled comprehensive databases of
           known acrylates and fungal acne triggers based on scientific
-          literature and dermatology resources. Our tool cross-references your
+          literature and dermatology resources. The tool cross-references your
           ingredient list against these databases in an instant.
         </p>
         <p>
-          No more guesswork. No more spending hours on research. Just paste,
-          analyze, and get a clear, immediate result. Take control of your
-          skincare routine and give your skin the peace it deserves.
+          No more guesswork. No more spending hours on research like I did. Just
+          paste, analyze, and get a clear, immediate result. Take control of
+          your skincare routine and give your skin the care it deserves.
         </p>
       </div>
     </section>
@@ -162,8 +162,22 @@ const Home: React.FC = () => {
     setIsLoading(true);
     setError(null);
 
+    // Track analysis usage
+    if (typeof (window as any).gtag === "function") {
+      (window as any).gtag("event", "analyze_ingredients", {
+        event_category: "engagement",
+        check_fungal_acne: checkFungalAcne,
+      });
+    }
+
     try {
-      const analysis = await analyzeIngredients(ingredients, checkFungalAcne);
+      // Ensure the loading screen is visible for 1.5s to 5s
+      const analysisPromise = analyzeIngredients(ingredients, checkFungalAcne);
+      const randomDelay = Math.random() * (4500 - 1500) + 1500; // 1.5s to 5s
+      const timerPromise = new Promise((r) => setTimeout(r, randomDelay));
+
+      const [analysis] = await Promise.all([analysisPromise, timerPromise]);
+
       const newHistoryItem: HistoryItem = {
         id: new Date().toISOString() + Math.random(),
         name: `Analysis (${new Date().toLocaleDateString()})`,
@@ -222,50 +236,52 @@ const Home: React.FC = () => {
     <>
       <Seo
         title="Acrylis – Acrylate & Fungal Acne Ingredient Checker"
-        description="Paste your skincare or makeup ingredients and instantly find out if they contain acrylates or fungal acne triggers. Fast, free, and dermatologist-inspired."
+        description="Paste your skincare or makeup ingredients and instantly find out if they contain acrylates or fungal acne triggers. Free, private, and built by someone with an acrylates allergy."
         keywords="ingredient analyzer, ingredient checker, skincare checker, cosmetic ingredients, acrylates allergy, fungal acne, malassezia folliculitis, safe skincare, beauty, cosmetics"
       />
-      <main className="w-full max-w-3xl text-center p-4 sm:p-6 lg:p-8">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-800 tracking-tight">
+      <main className="w-full max-w-4xl text-center p-4 sm:p-6 lg:p-8">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-acrylis-deep tracking-tight">
           Acrylates & Fungal Acne Ingredient Analyzer
         </h1>
         <p className="mt-4 text-lg text-gray-600">
           Check skincare and cosmetic products for potential irritants in
-          seconds. ✨
+          seconds — built by someone who's been there. ✨
         </p>
 
-        <div className="mt-8 text-left text-gray-700 text-base space-y-4 max-w-2xl mx-auto">
+        <div className="mt-8 text-left text-gray-700 text-base space-y-4 max-w-4xl mx-auto">
           <p>
-            Living with an <strong>acrylates allergy</strong> or managing{" "}
-            <strong>fungal acne (Malassezia folliculitis)</strong> can turn a
-            simple shopping trip into a frustrating ordeal. Ingredient lists are
-            often long, confusing, and filled with complex chemical names. It's
-            easy to feel overwhelmed and uncertain about which products are
-            truly safe for your skin.
+            I developed an allergy to acrylates after years of getting gel
+            polish — something I never thought twice about until my eyelids
+            swelled up and my fingers broke out in a painful rash. Suddenly I
+            had to scrutinise every single ingredient on every product I owned,
+            and honestly, it was exhausting. That's why I built this tool — to
+            save you the hours I spent cross-referencing chemical names and
+            trying to figure out what was safe.
           </p>
           <p>
-            This tool was built to eliminate that guesswork. Instead of spending
-            hours researching individual ingredients, you can get an instant,
-            automated analysis. Simply paste a product's full ingredient list
-            into the text box below to find out if it contains known triggers.
+            If you've ever stared at an ingredient list feeling completely
+            overwhelmed, you're in the right place. Just paste a product's full
+            ingredient list into the text box below and find out instantly if it
+            contains known acrylates or fungal acne triggers. No chemistry
+            degree required.
           </p>
           <div className="!mt-6 text-center">
             <Link
               to="/recommendations"
-              className="text-blue-600 hover:text-blue-700 font-semibold"
+              className="text-acrylis hover:text-acrylis-deep font-semibold"
             >
-              Looking for safe products? Check out our recommendations 👉
+              Looking for safe products? Check out my recommendations 👉
             </Link>
           </div>
         </div>
 
-        <div className="mt-12 max-w-2xl mx-auto text-center p-6 bg-gray-100 rounded-xl border border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-800">
+        <div className="mt-12 max-w-4xl mx-auto text-center p-6 bg-acrylis-light rounded-xl border border-gray-200 shadow-md">
+          <h2 className="text-2xl font-bold text-acrylis-deep">
             Say Goodbye to Scanning Lists 👋
           </h2>
           <p className="mt-2 text-gray-600">
-            Don't waste time manually checking ingredients. Let Acrylis do the
-            work for you.
+            Don't waste time manually checking ingredients like I did. Let
+            Acrylis do the work for you.
           </p>
           <p className="mt-4 text-gray-600">
             Enter individual ingredients or copy and paste an entire list into
@@ -273,13 +289,13 @@ const Home: React.FC = () => {
           </p>
           <button
             onClick={() => setIsInstructionsModalOpen(true)}
-            className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            className="mt-4 inline-flex items-center px-4 py-2 border font-medium rounded-md font-medium rounded-md shadow-sm text-white bg-acrylis-deep hover focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
           >
             View Search Instructions 💡
           </button>
         </div>
 
-        <div className="mt-8 max-w-2xl mx-auto">
+        <div className="mt-8 max-w-4xl mx-auto">
           <div className="flex justify-between items-center mb-2">
             <label
               htmlFor="ingredients"
@@ -290,7 +306,7 @@ const Home: React.FC = () => {
             {ingredients.length > 0 && (
               <button
                 onClick={() => setIngredients("")}
-                className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                className="text-sm font-medium text-acrylis hover:text-acrylis-deep transition-colors"
               >
                 Clear list
               </button>
@@ -300,7 +316,7 @@ const Home: React.FC = () => {
             <textarea
               id="ingredients"
               rows={8}
-              className="w-full p-4 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow text-base placeholder-gray-400"
+              className="w-full p-4 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-acrylis focus:border-acrylis transition-shadow text-base placeholder-gray-400"
               placeholder="Paste the full ingredient list here 🧪"
               value={ingredients}
               onChange={(e) => setIngredients(e.target.value)}
@@ -317,7 +333,7 @@ const Home: React.FC = () => {
                 type="checkbox"
                 checked={checkFungalAcne}
                 onChange={(e) => setCheckFungalAcne(e.target.checked)}
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="h-4 w-4 rounded border-gray-300 text-acrylis focus:ring-acrylis"
               />
             </div>
             <div className="ml-3 text-sm leading-6">
@@ -334,28 +350,27 @@ const Home: React.FC = () => {
         <button
           onClick={handleAnalyze}
           disabled={isLoading}
-          className="mt-4 w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-full shadow-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:scale-100"
+          className="mt-4 w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-full shadow-md text-white bg-acrylis hover:bg-acrylis-deep focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-acrylis transition-transform transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:scale-100"
         >
-          {isLoading ? (
-            <>
-              <Spinner className="w-5 h-5 mr-3 -ml-1" />
-              Analyzing...
-            </>
-          ) : (
-            "Analyze Ingredients"
-          )}
+          Analyze Ingredients
         </button>
 
+        {isLoading && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-acrylis-glass/80 backdrop-blur-md">
+            <Spinner />
+          </div>
+        )}
+
         {error && (
-          <div className="mt-4 max-w-2xl mx-auto p-3 bg-yellow-50 border border-yellow-300 rounded-lg flex items-center justify-center">
+          <div className="mt-4 max-w-4xl mx-auto p-3 bg-yellow-50 border border-yellow-300 rounded-lg flex items-center justify-center">
             <AlertTriangle className="h-5 w-5 text-yellow-500" />
             <p className="ml-2 text-sm text-yellow-800">{error}</p>
           </div>
         )}
 
         {history.length > 0 && (
-          <div className="mt-16 max-w-2xl mx-auto text-left">
-            <h2 className="text-2xl font-bold text-gray-800 flex items-center">
+          <div className="mt-16 max-w-4xl mx-auto text-left">
+            <h2 className="text-2xl font-bold text-acrylis-deep flex items-center">
               <HistoryIcon className="w-6 h-6 mr-2" />
               Analysis History
             </h2>
@@ -373,7 +388,7 @@ const Home: React.FC = () => {
                 return (
                   <li
                     key={item.id}
-                    className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm"
+                    className="bg-acrylis-mist p-4 rounded-lg border border-gray-200 shadow-sm"
                   >
                     <div className="flex items-center justify-between">
                       {isEditing ? (
@@ -384,11 +399,11 @@ const Home: React.FC = () => {
                           onKeyDown={(e) =>
                             e.key === "Enter" && handleSaveName(item.id)
                           }
-                          className="text-sm font-semibold text-gray-800 border-b-2 border-blue-500 focus:outline-none"
+                          className="text-sm font-semibold text-acrylis-deep border-b-2 border-acrylis focus:outline-none"
                           autoFocus
                         />
                       ) : (
-                        <span className="text-sm font-semibold text-gray-800">
+                        <span className="text-sm font-semibold text-acrylis-deep">
                           {item.name}
                         </span>
                       )}
@@ -398,7 +413,7 @@ const Home: React.FC = () => {
                           <>
                             <button
                               onClick={() => handleSaveName(item.id)}
-                              className="text-sm text-blue-600 hover:underline"
+                              className="text-sm text-acrylis hover:underline"
                             >
                               Save
                             </button>
@@ -442,7 +457,7 @@ const Home: React.FC = () => {
                       </p>
                       <button
                         onClick={() => handleViewHistory(item)}
-                        className="text-sm font-semibold text-blue-600 hover:text-blue-800"
+                        className="text-sm font-semibold text-acrylis hover:text-acrylis-deep"
                       >
                         View Results &rarr;
                       </button>

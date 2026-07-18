@@ -1,84 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- SEO: Title -->
-    <title>Acrylis – Acrylate & Fungal Acne Ingredient Checker</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- SEO: Meta Description -->
-    <meta
-      name="description"
-      content="Paste your skincare or makeup ingredients and instantly find out if they contain acrylates or fungal acne triggers. Fast, free, and dermatologist-inspired."
-    />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CZGZ5P3CGF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-    <!-- SEO: Meta Keywords -->
-    <meta
-      name="keywords"
-      content="ingredient analyzer, ingredient checker, skincare checker, cosmetic ingredients, acrylates allergy, fungal acne, malassezia folliculitis, safe skincare, beauty, cosmetics"
-    />
+    gtag('config', 'G-CZGZ5P3CGF');
+  </script>
 
-    <!-- SEO: Canonical URL -->
-    <link rel="canonical" href="https://acrylis.cc/" />
+  <!-- SEO: Title -->
+  <title>Acrylis – Acrylate & Fungal Acne Ingredient Checker</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <!-- SEO: Meta Description -->
+  <meta name="description"
+    content="Paste your skincare or makeup ingredients and instantly find out if they contain acrylates or fungal acne triggers. Fast, free, and dermatologist-inspired." />
 
-    <!-- Social Media Sharing: Open Graph (Facebook, Pinterest, etc.) -->
-    <meta
-      property="og:title"
-      content="Acrylates & Fungal Acne Ingredient Analyzer"
-    />
-    <meta
-      property="og:description"
-      content="Instantly check skincare and cosmetic ingredients for acrylates and fungal acne triggers."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://acrylis.cc/" />
-    <meta
-      property="og:image"
-      content="https://acrylis.cc/social-share-image.png"
-    />
+  <!-- SEO: Meta Keywords -->
+  <meta name="keywords"
+    content="ingredient analyzer, ingredient checker, skincare checker, cosmetic ingredients, acrylates allergy, fungal acne, malassezia folliculitis, safe skincare, beauty, cosmetics" />
 
-    <!-- Social Media Sharing: Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="Acrylates & Fungal Acne Ingredient Analyzer"
-    />
-    <meta
-      name="twitter:description"
-      content="Instantly check skincare and cosmetic ingredients for acrylates and fungal acne triggers."
-    />
-    <meta
-      name="twitter:image"
-      content="https://acrylis.cc/social-share-image.png"
-    />
+  <!-- SEO: Canonical URL -->
+  <link rel="canonical" href="https://acrylis.cc/" />
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Sora for headings, Inter for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
 
-    <!-- SEO: Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Acrylates & Fungal Acne Ingredient Analyzer",
-        "description": "A free tool to analyze cosmetic and skincare ingredient lists for potential acrylates and fungal acne (Malassezia folliculitis) triggers.",
-        "url": "https://acrylis.cc/",
-        "applicationCategory": "HealthApplication",
-        "operatingSystem": "Any",
-        "offers": {
-          "@type": "Offer",
-          "price": "0"
-        }
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Social Media Sharing: Open Graph (Facebook, Pinterest, etc.) -->
+  <meta property="og:title" content="Acrylates & Fungal Acne Ingredient Analyzer" />
+  <meta property="og:description"
+    content="Instantly check skincare and cosmetic ingredients for acrylates and fungal acne triggers." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://acrylis.cc/" />
+  <meta property="og:image" content="https://acrylis.cc/social-share-image.png" />
+
+  <!-- Social Media Sharing: Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Acrylates & Fungal Acne Ingredient Analyzer" />
+  <meta name="twitter:description"
+    content="Instantly check skincare and cosmetic ingredients for acrylates and fungal acne triggers." />
+  <meta name="twitter:image" content="https://acrylis.cc/social-share-image.png" />
+
+
+
+  <!-- SEO: Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Acrylis Ingredient Analyzer",
+      "alternateName": "Acrylates & Fungal Acne Ingredient Analyzer",
+      "url": "https://acrylis.cc/",
+      "description": "Free online tool to analyze cosmetic and skincare ingredient lists for acrylates, fungal acne (Malassezia) triggers, and other potential ingredient concerns.",
+      "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Cosmetic Ingredient Analyzer",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "featureList": [
+        "Detects acrylates and acrylate derivatives",
+        "Identifies fungal acne (Malassezia) triggers",
+        "Highlights potential ingredient concerns",
+        "Works with skincare, cosmetics and haircare products",
+        "Free to use"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Acrylis",
+        "url": "https://acrylis.cc/"
       }
-    </script>
-  </head>
-  <body class="bg-gray-50">
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
+    }
+  </script>
+</head>
+
+<body class="bg-purple-50">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
 </html>

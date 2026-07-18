@@ -23,13 +23,13 @@ const UpdateNotification: React.FC<UpdateNotificationProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl shadow-2xl w-full max-w-lg relative animate-fade-in-up"
+        className="bg-acrylis-mist rounded-xl shadow-2xl w-full max-w-lg relative animate-fade-in-up border border-white/20"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
       >
         <div className="flex items-start justify-between p-4 border-b rounded-t">
           <div className="flex items-baseline gap-2">
             <h3
-              className="text-xl font-semibold text-gray-900"
+              className="text-xl font-semibold text-acrylis-deep"
               id="modal-title"
             >
               Analysis Database Updated! 📈
@@ -78,7 +78,7 @@ const UpdateNotification: React.FC<UpdateNotificationProps> = ({
           <button
             onClick={onClose}
             type="button"
-            className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            className="text-white bg-acrylis hover:bg-acrylis-deep focus:ring-4 focus:outline-none focus:ring-acrylis-lilac font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             Awesome, thanks! 👍
           </button>

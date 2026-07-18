@@ -75,14 +75,14 @@ const Results: React.FC = () => {
     ];
 
     if (uniqueProblematicIngredientNames.length === 0) {
-      return { grade: "A+", text: "Excellent!", color: "text-green-500" };
+      return { grade: "A+", text: "Excellent!", color: "text-acrylis-safe" };
     }
 
     let riskScore = 0;
     uniqueProblematicIngredientNames.forEach((problematicIngredient) => {
       // Find the position (index) of the problematic ingredient
       const index = ingredientsArray.findIndex(
-        (ing) => ing === problematicIngredient
+        (ing) => ing === problematicIngredient,
       );
 
       if (index !== -1) {
@@ -99,10 +99,10 @@ const Results: React.FC = () => {
 
     // Determine grade based on the calculated risk score
     if (riskScore <= 3)
-      return { grade: "B", text: "Good", color: "text-yellow-500" };
+      return { grade: "B", text: "Good", color: "text-acrylis-warning" };
     if (riskScore <= 6)
-      return { grade: "C", text: "Use with Caution", color: "text-orange-500" };
-    return { grade: "D", text: "High Risk", color: "text-red-500" };
+      return { grade: "C", text: "Use with Caution", color: "text-acrylis-warning" };
+    return { grade: "D", text: "High Risk", color: "text-acrylis-unsafe" };
   };
 
   const { grade, text, color } = getGrade(result, ingredients);
@@ -113,10 +113,10 @@ const Results: React.FC = () => {
   }> = ({ ingredient }) => {
     const { name, reason, status } = ingredient;
     const Icon = AlertTriangle;
-    const iconColor = status === "Unknown" ? "text-yellow-500" : "text-red-500";
-    const textColor = status === "Unknown" ? "text-yellow-800" : "text-red-800";
+    const iconColor = status === "Unknown" ? "text-acrylis-warning" : "text-acrylis-unsafe";
+    const textColor = status === "Unknown" ? "text-acrylis-warning-deep" : "text-acrylis-unsafe-deep";
     const reasonColor =
-      status === "Unknown" ? "text-yellow-700" : "text-red-700";
+      status === "Unknown" ? "text-acrylis-warning-deep/80" : "text-acrylis-unsafe-deep/80";
 
     return (
       <li className="flex items-start">
@@ -136,37 +136,37 @@ const Results: React.FC = () => {
     analysis: IndividualAnalysis;
   }> = ({ title, analysis }) => {
     const hasUnsafe = analysis.foundIngredients.some(
-      (ing) => ing.status === "Unsafe"
+      (ing) => ing.status === "Unsafe",
     );
     const hasUnknown = analysis.foundIngredients.some(
-      (ing) => ing.status === "Unknown"
+      (ing) => ing.status === "Unknown",
     );
     const isCardSafe = !hasUnsafe && !hasUnknown;
 
     const getCardStyle = () => {
       if (hasUnsafe) {
         return {
-          bg: "bg-red-50/50",
-          border: "border-red-200",
-          icon: <AlertTriangle className="h-6 w-6 text-red-500" />,
-          titleColor: "text-red-800",
+          bg: "bg-acrylis-unsafe-light/30 backdrop-blur-sm",
+          border: "border-acrylis-unsafe/20",
+          icon: <AlertTriangle className="h-6 w-6 text-acrylis-unsafe" />,
+          titleColor: "text-acrylis-unsafe-deep",
           statusText: "Potential Issues Found",
         };
       }
       if (hasUnknown) {
         return {
-          bg: "bg-yellow-50/50",
-          border: "border-yellow-200",
-          icon: <AlertTriangle className="h-6 w-6 text-yellow-500" />,
-          titleColor: "text-yellow-800",
+          bg: "bg-acrylis-warning-light/30 backdrop-blur-sm",
+          border: "border-acrylis-warning/20",
+          icon: <AlertTriangle className="h-6 w-6 text-acrylis-warning" />,
+          titleColor: "text-acrylis-warning-deep",
           statusText: "Needs Verification",
         };
       }
       return {
-        bg: "bg-green-50/50",
-        border: "border-green-200",
-        icon: <CheckCircle className="h-6 w-6 text-green-500" />,
-        titleColor: "text-green-800",
+        bg: "bg-acrylis-safe-light/30 backdrop-blur-sm",
+        border: "border-acrylis-safe/20",
+        icon: <CheckCircle className="h-6 w-6 text-acrylis-safe" />,
+        titleColor: "text-acrylis-safe-deep",
         statusText: "Likely Safe",
       };
     };
@@ -174,7 +174,7 @@ const Results: React.FC = () => {
     const style = getCardStyle();
 
     return (
-      <div className={`p-4 border rounded-lg ${style.bg} ${style.border}`}>
+      <div className={`p-4 border rounded-lg shadow-sm ${style.bg} ${style.border}`}>
         <div className="flex items-center">
           {style.icon}
           <div className="ml-3">
@@ -183,9 +183,8 @@ const Results: React.FC = () => {
           </div>
         </div>
         <p
-          className={`mt-3 text-sm ${
-            isCardSafe ? "text-gray-600" : style.titleColor
-          }`}
+          className={`mt-3 text-sm ${isCardSafe ? "text-gray-600" : style.titleColor
+            }`}
         >
           {analysis.explanation}
         </p>
@@ -211,16 +210,15 @@ const Results: React.FC = () => {
         title={`Analysis Grade: ${grade} | Acrylis Results`}
         description={`Your product received a grade of ${grade}. See the detailed breakdown for acrylates and fungal acne triggers.`}
       />
-      <main className="w-full max-w-3xl text-center p-4 sm:p-6 lg:p-8">
+      <main className="w-full max-w-4xl text-center p-4 sm:p-6 lg:p-8">
         <div
-          className={`relative w-full max-w-2xl mx-auto p-6 rounded-xl border ${
-            isSafe ? "bg-green-50 border-green-300" : "bg-red-50 border-red-300"
-          } overflow-hidden`}
+          className={`relative w-full max-w-3xl mx-auto p-6 rounded-xl border backdrop-blur-md shadow-lg ${isSafe ? "bg-acrylis-safe-light/30 border-acrylis-safe/30" : "bg-acrylis-unsafe-light/30 border-acrylis-unsafe/30"
+            } overflow-hidden`}
         >
           {isSafe && <Confetti />}
           <div className="relative z-10">
-            <h1 className="text-2xl font-bold text-gray-800">
-              Analysis Complete
+            <h1 className="text-3xl font-bold text-acrylis-deep">
+              Analysis Results
             </h1>
             <div className="flex items-center justify-center gap-4 mt-4">
               <div className={`text-7xl font-extrabold ${color}`}>{grade}</div>
@@ -249,13 +247,46 @@ const Results: React.FC = () => {
             <div className="mt-6 text-left">
               <button
                 onClick={() => setShowIngredients(!showIngredients)}
-                className="text-sm text-blue-600 hover:underline focus:outline-none"
+                className="text-sm text-acrylis hover:underline focus:outline-none"
               >
                 {showIngredients ? "Hide" : "View"} Full Ingredient List
               </button>
               {showIngredients && (
-                <div className="mt-2 p-4 bg-gray-50 rounded-md border border-gray-200 text-xs text-gray-700 whitespace-pre-wrap">
-                  {ingredients}
+                <div className="mt-2 p-4 bg-acrylis-mist/50 rounded-md border border-gray-200 text-xs text-gray-700 leading-relaxed shadow-inner">
+                  {ingredients.split(/([,;.\n])(?:\s+)?/).map((token, idx) => {
+                    if (!token) return null;
+                    const isSeparator = /[,;.\n]/.test(token);
+                    if (isSeparator) return <span key={idx}>{token}</span>;
+
+                    const trimmedToken = token.trim();
+                    const lowerToken = trimmedToken.toLowerCase();
+                    const allBadIngredients = [
+                      ...result.acrylates.foundIngredients,
+                      ...(result.fungalAcne?.foundIngredients || [])
+                    ];
+
+                    const isBad = allBadIngredients.some(
+                      bad => bad.name.toLowerCase() === lowerToken
+                    );
+
+                    if (isBad) {
+                      const match = token.match(/^(\s*)(.*?)(\s*)$/);
+                      const [, lead, core, trail] = match || ["", "", token, ""];
+                      return (
+                        <span key={idx}>
+                          {lead}
+                          <span
+                            className="bg-acrylis-unsafe text-white px-2 py-0.5 rounded-full font-semibold inline-block mx-0.5 my-0.5 whitespace-nowrap"
+                          >
+                            {core}
+                          </span>
+                          {trail}
+                        </span>
+                      );
+                    }
+
+                    return <span key={idx}>{token}</span>;
+                  })}
                 </div>
               )}
             </div>
@@ -273,7 +304,7 @@ const Results: React.FC = () => {
 
         <Link
           to="/"
-          className="mt-8 w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-full shadow-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105"
+          className="mt-8 w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-semibold rounded-full shadow-md text-white bg-acrylis hover:bg-acrylis-deep focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-acrylis transition-transform transform hover:scale-105"
         >
           Analyze Another Product
         </Link>

@@ -1,49 +1,47 @@
 import React from "react";
-import { ProductIcon } from "../components/Icons";
+import { Link } from "react-router-dom";
 import Seo from "../components/Seo";
+import Accordion from "../components/Accordion";
 
 interface Product {
   brand: string;
   name: string;
   link: string;
-  imageUrl?: string;
 }
 
-const ProductCard: React.FC<Product> = ({ brand, name, link, imageUrl }) => (
-  <div className="border border-gray-200 rounded-lg p-4 flex flex-col text-center shadow-sm hover:shadow-md transition-shadow">
-    <div className="bg-gray-100 rounded-md h-40 flex items-center justify-center mb-4">
-      {imageUrl ? (
-        <img
-          src={imageUrl}
-          alt={`${brand} - ${name}`}
-          className="h-full w-full object-cover rounded-md"
-        />
-      ) : (
-        <ProductIcon className="w-16 h-16 text-gray-300" />
-      )}
-    </div>
-    <div className="flex-grow">
-      <p className="font-bold text-gray-800">{brand}</p>
-      <p className="text-gray-600 text-sm mt-1">{name}</p>
-    </div>
-    <a
-      href={link}
-      target="_blank"
-      rel="noopener noreferrer sponsored"
-      className="mt-4 block bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm"
-    >
-      Shop Now
-    </a>
-  </div>
+const RecommendationList: React.FC<{ items: Product[] }> = ({ items }) => (
+  <ul className="list-disc pl-5 space-y-3 pt-2">
+    {items.map((product) => (
+      <li key={product.brand + product.name} className="text-gray-700">
+        <span className="font-bold text-gray-900">{product.brand}</span> {product.name} —{" "}
+        <a
+          href={product.link}
+          target="_blank"
+          rel="noopener noreferrer sponsored"
+          className="text-acrylis hover:underline text-sm font-bold inline-flex items-center gap-1 group/link"
+          onClick={() => {
+            if (typeof (window as any).gtag === "function") {
+              (window as any).gtag("event", "click_recommendation", {
+                brand: product.brand,
+                product_name: product.name,
+              });
+            }
+          }}
+        >
+          Shop Now <span className="transition-transform group-hover/link:translate-x-0.5">→</span>
+        </a>
+      </li>
+    ))}
+  </ul>
 );
 
 const RecommendationsDisclaimer: React.FC = () => (
-  <div className="mb-8">
-    <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+  <div className="mb-10 mt-6">
+    <div className="bg-acrylis-mist border-l-4 border-acrylis p-6 rounded-r-2xl shadow-md">
       <div className="flex">
         <div className="flex-shrink-0">
           <svg
-            className="h-5 w-5 text-blue-400"
+            className="h-6 w-6 text-acrylis"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
@@ -54,34 +52,20 @@ const RecommendationsDisclaimer: React.FC = () => (
             />
           </svg>
         </div>
-        <div className="ml-3">
-          <h3 className="text-sm font-medium text-blue-800">
+        <div className="ml-4">
+          <h3 className="text-base font-bold text-acrylis-deep">
             Product Recommendations Disclaimer
           </h3>
-          <div className="mt-2 text-sm text-blue-700">
-            <p>Before using any recommended products:</p>
-            <ul className="list-disc pl-5 mt-2">
-              <li>
-                These recommendations are based on ingredients lists that may
-                change over time
-              </li>
-              <li>
-                Always verify ingredients yourself, as formulations can be
-                updated without notice
-              </li>
+          <div className="mt-3 text-sm text-acrylis-deep/80 space-y-3">
+            <p className="font-semibold">Before using any recommended products:</p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Formulations can change at any time — always verify ingredients</li>
               <li>Patch test any new product, even if it's listed as "safe"</li>
-              <li>
-                Individual reactions can vary - what works for others may not
-                work for you
-              </li>
-              <li>
-                Consult with a healthcare provider before trying new products if
-                you have sensitive skin or allergies
-              </li>
+              <li>Individual reactions can vary - what works for others may not work for you</li>
+              <li>Consult with a healthcare provider if you have sensitive skin</li>
             </ul>
-            <p className="mt-2">
-              The links provided may be affiliate links. This helps support our
-              free analysis tool, but doesn't affect our recommendations.
+            <p className="text-xs italic">
+              Links may be affiliate links. This helps keep Acrylis free, but doesn't affect my choices 💖
             </p>
           </div>
         </div>
@@ -94,124 +78,94 @@ const Recommendations: React.FC = () => {
   // Makeup
   const eyelashGlues: Product[] = [
     {
-      brand: "True Glue",
-      name: "All-Natural Lash Adhesive",
-      link: "https://www.amazon.co.uk/s?k=True+Glue+All-Natural+Lash+Adhesive&tag=acrylis-21",
-    },
-    {
-      brand: "MoxieLash",
-      name: "Magnetic Eyeliner & Lashes",
-      link: "https://www.amazon.co.uk/s?k=MoxieLash+Magnetic+Eyeliner+%26+Lashes&tag=acrylis-21",
-    },
-    {
-      brand: "Tatti Lashes",
-      name: "Lash Adhesives",
-      link: "https://www.amazon.co.uk/s?k=Tatti+Lashes+glue&tag=acrylis-21",
-    },
-    {
       brand: "imPRESS",
       name: "Press-On Falsies",
-      link: "https://www.amazon.co.uk/s?k=imPRESS+press-on+lashes&tag=acrylis-21",
+      link: "https://amzn.to/4dsRV1p",
     },
   ];
   const mascaras: Product[] = [
     {
       brand: "Essence",
       name: "Lash Princess Mascara",
-      link: "https://www.amazon.co.uk/s?k=Essence+Lash+Princess+Mascara&tag=acrylis-21",
+      link: "https://amzn.to/3R62lNh",
     },
     {
       brand: "Honest Beauty",
       name: "Extreme Length Mascara + Lash Primer",
-      link: "https://www.amazon.co.uk/s?k=Honest+Beauty+Extreme+Length+Mascara+%2B+Lash+Primer&tag=acrylis-21",
-    },
-    {
-      brand: "Estelle & Thild",
-      name: "BioMineral Lengthening Mascara",
-      link: "https://www.amazon.co.uk/s?k=Estelle+%26+Thild+BioMineral+Lengthening+Mascara&tag=acrylis-21",
-    },
-    {
-      brand: "Florence by Mills",
-      name: "Built to Lash Mascara",
-      link: "https://www.amazon.co.uk/s?k=Florence+by+Mills+Built+to+Lash+Mascara&tag=acrylis-21",
+      link: "https://amzn.to/4tIxrbo",
     },
     {
       brand: "Burt’s Bees",
       name: "Nourishing Mascara",
-      link: "https://www.amazon.co.uk/s?k=Burt’s+Bees+Nourishing+Mascara&tag=acrylis-21",
+      link: "https://amzn.to/43d6QYV",
     },
   ];
   const eyeliners: Product[] = [
     {
-      brand: "Honest Beauty",
-      name: "Liquid Eyeliner",
-      link: "https://www.amazon.co.uk/s?k=Honest+Beauty+Liquid+Eyeliner&tag=acrylis-21",
+      brand: "SHEGLAM",
+      name: "Bold Moves Kohl Cream Eyeliner Pencil",
+      link: "https://amzn.to/3Ru10zM",
     },
     {
       brand: "Sephora Collection",
-      name: "Liquid Eyeliner",
-      link: "https://www.sephora.com/product/long-lasting-eyeliner-high-precision-brush-P303302",
+      name: "Long-Lasting 12HR Wear Eye Liner 01 Black",
+      link: "https://amzn.to/4uc5b1L",
     },
     {
       brand: "Pacifica",
-      name: "Natural Eye Pencil",
-      link: "https://www.amazon.co.uk/s?k=Pacifica+Natural+Eye+Pencil&tag=acrylis-21",
-    },
-    {
-      brand: "Sacheu",
-      name: "Liner & Freckle Stains",
-      link: "https://sacheu.com/products/lip-liner-stain",
+      name: "Vegan Water Resistant Eyeliner - Fringe for Women 0.04 oz Eyeliner",
+      link: "https://amzn.to/42FVkoM",
     },
   ];
   const settingSprays: Product[] = [
     {
-      brand: "Milani",
-      name: "Make It Last Matte Setting Spray",
-      link: "https://www.amazon.co.uk/s?k=Milani+Make+It+Last+Matte+Setting+Spray&tag=acrylis-21",
-    },
-    {
-      brand: "LA Girl",
-      name: "PRO Perfect Oil Control Setting Spray",
-      link: "https://www.amazon.co.uk/s?k=LA+Girl+PRO+Perfect+Oil+Control+Setting+Spray&tag=acrylis-21",
-    },
-    {
       brand: "NYX",
       name: "Matte Finish Makeup Setting Spray",
-      link: "https://www.amazon.co.uk/s?k=NYX+Matte+Finish+Makeup+Setting+Spray&tag=acrylis-21",
-    },
-    {
-      brand: "KimChi Chic",
-      name: "Stage Proof Matte Setting Spray",
-      link: "https://www.amazon.co.uk/s?k=KimChi+Chic+Stage+Proof+Matte+Setting+Spray&tag=acrylis-21",
+      link: "https://amzn.to/4dfchMX",
     },
   ];
   const foundations: Product[] = [
     {
       brand: "Estee Lauder",
       name: "Double Wear Foundation",
-      link: "https://www.amazon.co.uk/s?k=Estee+Lauder+Double+Wear+Foundation&tag=acrylis-21",
+      link: "https://amzn.to/4tGkEWG",
     },
     {
-      brand: "Bare Minerals",
-      name: "Complexion Rescue Tinted Moisturizer",
-      link: "https://www.amazon.co.uk/s?k=Bare+Minerals+Complexion+Rescue+Tinted+Moisturizer&tag=acrylis-21",
+      brand: "SHEGLAM",
+      name: "Skinfinite Hydrating Foundation-Buttercream",
+      link: "https://amzn.to/3RtYg5r",
+    },
+    {
+      brand: "Max Factor",
+      name: "Pan Stik Foundation",
+      link: "https://amzn.to/4wA3Vac",
     },
     {
       brand: "L’Oréal",
       name: "True Match Nude Tinted Serum",
-      link: "https://www.amazon.co.uk/s?k=LOréal+True+Match+Nude+Tinted+Serum&tag=acrylis-21",
+      link: "https://amzn.to/4wBxBnr",
     },
   ];
   const eyebrowProducts: Product[] = [
     {
       brand: "NYX",
       name: "Micro Brow Pencil",
-      link: "https://www.amazon.co.uk/s?k=NYX+Micro+Brow+Pencil&tag=acrylis-21",
+      link: "https://amzn.to/43deX7T",
     },
+  ];
+
+  const eyeshadows: Product[] = [
     {
-      brand: "Browgame Cosmetics",
-      name: "Instant Brow Lift Wax",
-      link: "https://browgamecosmetics.com/products/instant-brow-lift-lamination-wax",
+      brand: "SHEGLAM",
+      name: "Viva La Leopard Palette",
+      link: "https://www.sheglam.com/product/Viva-La-Leopard-Palette-6811289780389",
+    },
+  ];
+  const blushes: Product[] = [
+    {
+      brand: "Benefit",
+      name: "Powder Blushes",
+      link: "https://amzn.to/4eR7XEX",
     },
   ];
 
@@ -220,95 +174,140 @@ const Recommendations: React.FC = () => {
     {
       brand: "Nivea",
       name: "Creme",
-      link: "https://www.amazon.co.uk/s?k=Nivea+Creme&tag=acrylis-21",
+      link: "https://amzn.to/4ujY0on",
     },
     {
-      brand: "SeoulCeuticals",
-      name: "Snail Repair Cream",
-      link: "https://www.amazon.co.uk/s?k=SeoulCeuticals+Snail+Repair+Cream&tag=acrylis-21",
+      brand: "The Ordinary",
+      name: "Natural Moisturizing Factors + PhytoCeramides",
+      link: "https://amzn.to/4tQ3ciQ",
     },
     {
       brand: "Various",
       name: "Pure Rosehip Oil",
-      link: "https://www.amazon.co.uk/s?k=rosehip+oil&tag=acrylis-21",
+      link: "https://amzn.to/499HrTA",
     },
     {
       brand: "Various",
       name: "Pure Argan Oil",
-      link: "https://www.amazon.co.uk/s?k=argan+oil&tag=acrylis-21",
+      link: "https://amzn.to/42F1DJo",
     },
   ];
   const cleansers: Product[] = [
     {
       brand: "Beauty of Joseon",
       name: "Green Plum Refreshing Cleanser",
-      link: "https://www.amazon.co.uk/s?k=Beauty+of+Joseon+Green+Plum+Refreshing+Cleanser&tag=acrylis-21",
+      link: "https://amzn.to/4dg9ZNx",
     },
     {
       brand: "Holika Holika",
       name: "Aloe Facial Cleansing Foam",
-      link: "https://www.amazon.co.uk/s?k=Holika+Holika+Aloe+Facial+Cleansing+Foam&tag=acrylis-21",
+      link: "https://amzn.to/3Pq1Ay0",
+    },
+  ];
+  const toners: Product[] = [
+    {
+      brand: "HaruHaru Wonder",
+      name: "Black Rice Hyaluronic Toner (Fragrance Free)",
+      link: "https://amzn.to/3RcgLeJ",
     },
     {
-      brand: "Kose",
-      name: "Softymo Collagen Cleansing Foam",
-      link: "https://www.amazon.co.uk/s?k=Kose+Softymo+Collagen+Cleansing+Foam&tag=acrylis-21",
+      brand: "Equalberry",
+      name: "Swimming Pool Toner",
+      link: "https://amzn.to/4nx4Ggl",
+    },
+  ];
+  const serumsAndTreatments: Product[] = [
+    {
+      brand: "The Ordinary",
+      name: "Soothe & Barrier Support Serum",
+      link: "https://amzn.to/4eI2TTj",
+    },
+    {
+      brand: "The Ordinary",
+      name: "Aloe 2% + NAG 2% Solution",
+      link: "https://amzn.to/4wCq5cb",
+    },
+    {
+      brand: "The Ordinary",
+      name: "Salicylic Acid 2% Solution",
+      link: "https://amzn.to/4ngREDk",
+    },
+    {
+      brand: "Medipeel",
+      name: "Peptide 9 Volume Bio Tox Ampoule Pro 100ml",
+      link: "https://amzn.to/4weRCzX",
+    },
+    {
+      brand: "VT Cosmetics",
+      name: "Cica A1 Azelaic Acid Serum",
+      link: "https://www.yesstyle.com/en/vt-azelaic-a1-calming-ampoule-30ml/info.html/pid.1134366027?utm_medium=LinkShare&utm_source=dynamic&mcg=influencer",
+    },
+    {
+      brand: "Skinoren",
+      name: "20% Azelaic Acid Cream",
+      link: "",
     },
   ];
   const spf: Product[] = [
     {
-      brand: "Supergoop!",
-      name: "Unseen Sunscreen SPF 40",
-      link: "https://www.amazon.co.uk/s?k=Supergoop%21+Unseen+Sunscreen+SPF+40&tag=acrylis-21",
+      brand: "OMI Sun Bears",
+      name: "Active Protect Milk SPF 50+ PA++++",
+      link: "https://www.yesstyle.com/en/omi-sun-bears-active-protect-milk-sunscreen-spf-50-pa-30g/info.html/pid.1112540945?utm_medium=LinkShare&utm_source=dynamic&mcg=influencer",
     },
     {
-      brand: "Avene",
-      name: "Solaire UV Mineral Multi-Defense Sunscreen",
-      link: "https://www.amazon.co.uk/s?k=Avene+Solaire+UV+Mineral+Multi-Defense+Sunscreen&tag=acrylis-21",
+      brand: "Nivea Sun",
+      name: "UV Face Fluid SPF 50",
+      link: "https://amzn.to/4hl1Slb",
+    },
+    {
+      brand: "PRETTY SKIN",
+      name: "Pink Tone Up Sun Cream SPF 50+ PA++++",
+      link: "https://www.yesstyle.com/en/pretty-skin-sun-cream-3-types-pink-tone-up/info.html/pid.1133315821?utm_medium=LinkShare&utm_source=dynamic&mcg=influencer",
     },
   ];
 
   // Nail Products
   const nailPolishes: Product[] = [
     {
-      brand: "Dazzle Dry",
-      name: "Nail Lacquer System",
-      link: "https://www.amazon.co.uk/s?k=Dazzle+Dry+Nail+Lacquer+System&tag=acrylis-21",
-    },
-    {
       brand: "Manicurist",
       name: "Green Natural Nail Polish",
-      link: "https://us.manucurist.com/collections/green-nail-polish",
+      link: "https://amzn.to/3PbE9Zf",
     },
     {
       brand: "OPI",
       name: "Nature Strong Nail Lacquer",
-      link: "https://www.amazon.co.uk/s?k=OPI+Nature+Strong+Nail+Lacquer&tag=acrylis-21",
+      link: "https://amzn.to/4eSEUAU",
+    },
+    {
+      brand: "Rimmel London",
+      name: "Kind and Free Clean Nail Polish",
+      link: "https://amzn.to/4wAMXIU",
     },
     {
       brand: "Nail Kind",
       name: "Natural Nail Polish",
-      link: "https://nailkind.com/",
-    },
-    {
-      brand: "Sally Hansen",
-      name: "Hard as Nails",
-      link: "https://www.amazon.co.uk/s?k=Sally+Hansen+Hard+as+Nails&tag=acrylis-21",
+      link: "https://amzn.to/4wEPdyY",
     },
     {
       brand: "Essie",
       name: "Good to Go Top Coat",
-      link: "https://www.amazon.co.uk/s?k=Essie+Good+to+Go+Top+Coat&tag=acrylis-21",
+      link: "https://amzn.to/4nES8DK",
     },
+  ];
+
+  const haircare: Product[] = [
     {
-      brand: "ORLY",
-      name: "Sec'n Dry Topcoat",
-      link: "https://www.amazon.co.uk/s?k=ORLY+Sec%27n+Dry+Topcoat&tag=acrylis-21",
+      brand: "Various",
+      name: "Whole Brown Flaxseeds (for DIY Gel)",
+      link: "https://amzn.to/4tyZART",
     },
+  ];
+
+  const bodyCare: Product[] = [
     {
-      brand: "Pacifica",
-      name: "Plant Magic Polish",
-      link: "https://www.amazon.co.uk/s?k=Pacifica+Plant+Magic+Polish&tag=acrylis-21",
+      brand: "Liquid Silk",
+      name: "Silicone Lubricant (Carbomer-Free)",
+      link: "https://amzn.to/3PE4gN9",
     },
   ];
 
@@ -316,210 +315,257 @@ const Recommendations: React.FC = () => {
     <>
       <Seo
         title="Acrylate-Free Product Recommendations – Makeup & Skincare"
-        description="A curated list of makeup, skincare, and nail products that are generally free from acrylates. Find safe eyelash glues, mascaras, foundations, and more."
+        description="My personal curated list of makeup, skincare, and nail products that are free from acrylates. Safe products I've found and vetted for anyone with an acrylates allergy or fungal acne concerns."
         keywords="acrylate-free products, fungal acne safe makeup, safe skincare, acrylate-free mascara, acrylate-free foundation, nail polish without acrylates"
       />
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center">
-            <h1 className="text-3xl font-extrabold text-gray-800 tracking-tight">
-              Acrylate-Free Product Recommendations 💖
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl font-extrabold text-acrylis-deep tracking-tight mb-4">
+              Acrylate-Free Favorites
             </h1>
-            <p className="mt-4 text-lg text-gray-600">
-              A curated list of products generally considered safe for those
-              with acrylates allergies. ✨
+            <p className="text-lg text-gray-600">
+              Tried, tested, and vetted products for sensitive skin.
             </p>
           </div>
 
           <RecommendationsDisclaimer />
 
-          <div className="mt-12 space-y-12">
+          <div className="space-y-6">
             {/* Makeup */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-800 border-b pb-3 mb-6">
-                Makeup Recommendations 💄
-              </h2>
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-4">
+            <Accordion
+              title="Makeup Recommendations 💅"
+              titleClassName="text-2xl"
+              defaultOpen={true}
+            >
+              <div className="prose prose-acrylis max-w-none mb-8 text-gray-600">
+                <p>
+                  Finding acrylate-free makeup can be challenging because
+                  acrylates are widely used as film formers in mascaras,
+                  eyeliners, and lash adhesives.
+                </p>
+              </div>
+              <div className="space-y-10">
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
                     Eyelash Glues
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {eyelashGlues.map((product) => (
-                      <ProductCard
-                        key={product.brand + product.name}
-                        {...product}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                  <RecommendationList items={eyelashGlues} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
                     Mascaras
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {mascaras.map((product) => (
-                      <ProductCard
-                        key={product.brand + product.name}
-                        {...product}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                  <RecommendationList items={mascaras} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
                     Eyeliners
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {eyeliners.map((product) => (
-                      <ProductCard
-                        key={product.brand + product.name}
-                        {...product}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                  <RecommendationList items={eyeliners} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
                     Setting Sprays
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {settingSprays.map((product) => (
-                      <ProductCard
-                        key={product.brand + product.name}
-                        {...product}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                  <RecommendationList items={settingSprays} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
                     Foundations
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {foundations.map((product) => (
-                      <ProductCard
-                        key={product.brand + product.name}
-                        {...product}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                  <RecommendationList items={foundations} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
                     Eyebrow Products
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {eyebrowProducts.map((product) => (
-                      <ProductCard
-                        key={product.brand + product.name}
-                        {...product}
-                      />
-                    ))}
-                  </div>
-                </div>
+                  <RecommendationList items={eyebrowProducts} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
+                    Eyeshadows
+                  </h3>
+                  <RecommendationList items={eyeshadows} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
+                    Blush
+                  </h3>
+                  <RecommendationList items={blushes} />
+                </section>
               </div>
-            </section>
+            </Accordion>
 
             {/* Skincare */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-800 border-b pb-3 mb-6">
-                Skincare Recommendations 🌿
-              </h2>
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-4">
+            <Accordion
+              title="Skincare Recommendations ✨"
+              titleClassName="text-2xl"
+            >
+              <div className="prose prose-acrylis max-w-none mb-8 text-gray-600">
+                <p>
+                  Skincare products can be a hidden source of acrylates through thickening agents and texture enhancers.
+                  For a complete guide, read my{" "}
+                  <a
+                    href="/blog/safe-skincare-routine"
+                    className="text-acrylis font-bold underline"
+                  >
+                    routine building article
+                  </a>.
+                </p>
+              </div>
+              <div className="space-y-10">
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
+                    Toners
+                  </h3>
+                  <RecommendationList items={toners} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
                     Moisturizers
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {moisturizers.map((product) => (
-                      <ProductCard
-                        key={product.brand + product.name}
-                        {...product}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                  <RecommendationList items={moisturizers} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
+                    Serums & Treatments
+                  </h3>
+                  <RecommendationList items={serumsAndTreatments} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
                     Cleansers
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {cleansers.map((product) => (
-                      <ProductCard
-                        key={product.brand + product.name}
-                        {...product}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                  <RecommendationList items={cleansers} />
+                </section>
+                <section>
+                  <h3 className="text-xl font-bold text-acrylis-deep mb-4 flex items-center gap-2">
+                    <span className="w-1.5 h-6 bg-acrylis rounded-full"></span>
                     SPF
                   </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {spf.map((product) => (
-                      <ProductCard
-                        key={product.brand + product.name}
-                        {...product}
-                      />
-                    ))}
-                  </div>
-                </div>
+                  <RecommendationList items={spf} />
+                </section>
               </div>
-            </section>
+            </Accordion>
 
             {/* Nail Products */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-800 border-b pb-3 mb-6">
-                Nail Product Recommendations 💅
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {nailPolishes.map((product) => (
-                  <ProductCard
-                    key={product.brand + product.name}
-                    {...product}
-                  />
-                ))}
+            <Accordion
+              title="Nail Recommendations 💅"
+              titleClassName="text-2xl"
+            >
+              <div className="prose prose-acrylis max-w-none mb-8 text-gray-600">
+                <p>
+                  Nail products are the single largest source of acrylate exposure.
+                  Avoid gel and acrylic systems if you have a confirmed allergy!
+                </p>
               </div>
-              <div className="mt-6 bg-red-50 text-red-800 p-4 rounded-lg border border-red-200 text-sm">
-                <strong>Important:</strong> Avoid gel nails and acrylic
-                extensions, as most contain high-risk acrylates that can trigger
-                or worsen allergies.
+              <section>
+                <RecommendationList items={nailPolishes} />
+              </section>
+              <div className="mt-8 bg-acrylis-unsafe-light text-acrylis-unsafe-deep p-6 rounded-2xl border border-acrylis-unsafe/20 text-sm italic shadow-md">
+                <strong>Safety First:</strong> Traditional polishes are generally safer than gel systems, but always patch test.
               </div>
-            </section>
+            </Accordion>
+
+            {/* Haircare */}
+            <Accordion
+              title="Haircare Recommendations 🌿"
+              titleClassName="text-2xl"
+            >
+              <div className="prose prose-acrylis max-w-none mb-8 text-gray-600">
+                <p>
+                  Many hair gels and styling products contain acrylate copolymers for hold.
+                  Switching to natural alternatives like DIY flaxseed gel can make a huge difference
+                  for forehead and neck irritation.
+                </p>
+              </div>
+              <section>
+                <RecommendationList items={haircare} />
+              </section>
+              <div className="mt-8 bg-acrylis-mist p-6 rounded-2xl border border-gray-100 text-sm shadow-md">
+                <p className="font-bold text-acrylis-deep mb-2">DIY Flaxseed Gel Guide</p>
+                <p className="text-gray-600 mb-4">
+                  Check out my blog post on how to make your own acrylate-free styling gel at home for pennies!
+                </p>
+                <Link
+                  to="/blog/flaxseed-gel-hair-care"
+                  className="text-acrylis font-bold hover:underline"
+                >
+                  Read the Guide &rarr;
+                </Link>
+              </div>
+            </Accordion>
+
+            {/* Body & Intimacy */}
+            <Accordion
+              title="Body & Intimacy Recommendations 💧"
+              titleClassName="text-2xl"
+            >
+              <div className="prose prose-acrylis max-w-none mb-8 text-gray-600">
+                <p>
+                  Intimate products frequently contain carbomers to create that classic gel consistency.
+                  If you are experiencing unexplained burning, check your labels.
+                </p>
+                <div className="mt-4 bg-acrylis-unsafe-light text-acrylis-unsafe-deep p-4 rounded-xl border border-acrylis-unsafe/20 text-sm shadow-sm">
+                  <strong>A Note on Glycerin:</strong> Many water-based options contain high amounts of glycerin. If you are prone to yeast infections, glycerin can feed the yeast and cause burning that mimics an allergic reaction.
+                </div>
+              </div>
+              <section>
+                <RecommendationList items={bodyCare} />
+              </section>
+              <div className="mt-8 bg-acrylis-mist p-6 rounded-2xl border border-gray-100 text-sm shadow-md">
+                <p className="font-bold text-acrylis-deep mb-2">My Carbomer & Lube Story</p>
+                <p className="text-gray-600 mb-4">
+                  I wrote about mistaking carbomer-induced chemical burning for vaginismus, and how throwing out my old lube solved it.
+                </p>
+                <Link
+                  to="/blog/carbomer-in-lubricants-burning"
+                  className="text-acrylis font-bold hover:underline"
+                >
+                  Read the Post &rarr;
+                </Link>
+              </div>
+            </Accordion>
+
 
             {/* Tips */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-800 border-b pb-3 mb-6">
-                Tips for Avoiding Acrylates 💡
+            <section className="bg-acrylis-mist p-10 rounded-2xl border border-gray-100 shadow-md">
+              <h2 className="text-2xl font-bold text-acrylis-deep mb-6 flex items-center gap-3">
+                <span className="p-2 bg-acrylis-light/30 rounded-lg shadow-sm">💡</span>
+                Quick Tips for Shopping
               </h2>
-              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 space-y-4 text-gray-700">
-                <ul className="list-disc list-inside space-y-2">
+              <div className="space-y-6 text-gray-700 leading-relaxed">
+                <ul className="list-disc list-inside space-y-4">
                   <li>
-                    Prioritize products labeled as "all natural" and always read
-                    ingredient lists for terms such as “acrylates,” “carbomer,”
-                    and “polyquaternium”.
+                    Look for <span className="font-bold underline decoration-acrylis-lilac">"all natural"</span> labels but still read the back.
                   </li>
                   <li>
-                    Be cautious about hybrid formulas and some anti-aging
-                    products that may include acrylates under various names.
+                    Watch out for <span className="font-bold text-acrylis">carbomers</span> — they are everywhere!
                   </li>
                   <li>
-                    When in doubt, stick with simple natural oils and
-                    mineral-based makeup.
+                    When in doubt, stick to simple minerals and oils.
                   </li>
                 </ul>
               </div>
             </section>
           </div>
 
-          <div className="mt-12 text-center text-sm text-gray-500">
+          <div className="mt-16 text-center text-sm text-gray-400 pb-4 italic">
             <p>
-              <strong>Disclaimer:</strong> Always double-check the ingredient
-              list before purchasing, as formulas can change. If you have a
-              known allergy, we strongly recommend patch testing any new
-              product.
+              Always double-check formulas as brands change them without notice.
             </p>
           </div>
         </div>

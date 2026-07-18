@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Helmet } from "react-helmet-async";
 
 interface SeoProps {
   title: string;
@@ -7,52 +8,25 @@ interface SeoProps {
 }
 
 const Seo: React.FC<SeoProps> = ({ title, description, keywords }) => {
-  useEffect(() => {
-    document.title = title;
+  const canonicalUrl = typeof window !== "undefined" ? window.location.origin + window.location.pathname : "https://acrylis.cc";
 
-    const updateMetaTag = (
-      attr: "name" | "property",
-      value: string,
-      content: string
-    ) => {
-      let element = document.querySelector(`meta[${attr}="${value}"]`);
-      if (!element) {
-        element = document.createElement("meta");
-        element.setAttribute(attr, value);
-        document.head.appendChild(element);
-      }
-      element.setAttribute("content", content);
-    };
+  return (
+    <Helmet>
+      <title>{title}</title>
+      <meta name="description" content={description} />
+      {keywords && <meta name="keywords" content={keywords} />}
 
-    updateMetaTag("name", "description", description);
+      {/* Open Graph tags for social sharing */}
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
 
-    const keywordsTag = document.querySelector('meta[name="keywords"]');
-    if (keywords) {
-      updateMetaTag("name", "keywords", keywords);
-    } else if (keywordsTag) {
-      keywordsTag.remove();
-    }
+      {/* Twitter Card tags */}
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
 
-    // Update Open Graph tags for social sharing
-    updateMetaTag("property", "og:title", title);
-    updateMetaTag("property", "og:description", description);
-
-    // Update Twitter Card tags
-    updateMetaTag("name", "twitter:title", title);
-    updateMetaTag("name", "twitter:description", description);
-
-    // Add or update canonical link
-    const canonicalUrl = window.location.origin + window.location.pathname;
-    let canonicalLink = document.querySelector('link[rel="canonical"]');
-    if (!canonicalLink) {
-      canonicalLink = document.createElement("link");
-      canonicalLink.setAttribute("rel", "canonical");
-      document.head.appendChild(canonicalLink);
-    }
-    canonicalLink.setAttribute("href", canonicalUrl);
-  }, [title, description, keywords]);
-
-  return null; // This component does not render anything to the DOM itself
+      <link rel="canonical" href={canonicalUrl} />
+    </Helmet>
+  );
 };
 
 export default Seo;

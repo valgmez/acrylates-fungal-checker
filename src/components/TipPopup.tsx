@@ -8,10 +8,10 @@ interface TipPopupProps {
 export const TipPopup: React.FC<TipPopupProps> = ({ onClose }) => {
   return (
     <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 max-w-sm w-full z-20 animate-fade-in-up">
-      <div className="bg-white rounded-xl shadow-2xl p-4 border border-gray-200">
+      <div className="bg-acrylis-mist rounded-xl shadow-2xl p-4 border border-gray-200 backdrop-blur-md">
         <div className="flex items-start">
           <div className="flex-shrink-0 pt-0.5">
-            <Info className="h-6 w-6 text-blue-500" />
+            <Info className="h-6 w-6 text-acrylis" />
           </div>
           <div className="ml-3 w-0 flex-1">
             <p className="text-sm font-semibold text-gray-900">Acrylis Tip ✨</p>
@@ -22,7 +22,7 @@ export const TipPopup: React.FC<TipPopupProps> = ({ onClose }) => {
           <div className="ml-4 flex flex-shrink-0">
             <button
               type="button"
-              className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="inline-flex rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-acrylis focus:ring-offset-2"
               onClick={onClose}
               aria-label="Close"
             >
