@@ -19,6 +19,7 @@ export const useAnalytics = () => {
   const location = useLocation();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (window.gtag) {
       window.gtag("event", "page_view", {
         page_path: location.pathname + location.search,

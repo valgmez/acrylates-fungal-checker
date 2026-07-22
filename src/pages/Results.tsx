@@ -43,6 +43,7 @@ const Results: React.FC = () => {
   const [showIngredients, setShowIngredients] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (!result || !ingredients) {
       navigate("/", { replace: true });
     }
